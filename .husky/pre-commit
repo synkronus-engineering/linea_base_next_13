@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-yarn lint && yarn run prettier --write $(git diff --name-only --diff-filter d | grep -e '\.[tj]sx\?$' | xargs)
+yarn lint && yarn pretty-quick --staged
