@@ -1,4 +1,9 @@
-import './globals.css';
+import '@/styles/demo/Demos.scss';
+import '@/styles/globals.css';
+import '@/styles/layout/layout.scss';
+import 'primeicons/primeicons.css';
+import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
 
 export default function RootLayout({
   children,
