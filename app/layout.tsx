@@ -1,4 +1,4 @@
-import AppTopbar from '@/@page-sections/layouts/AppTopbar';
+import LayoutWrapper from '@/@page-sections/layouts/LayoutWrapper';
 import AppFooter from '@/components/footer/AppFooter';
 import '@/styles/demo/Demos.scss';
 import '@/styles/globals.css';
@@ -17,11 +17,8 @@ export default function RootLayout({
     <html lang="en">
       <head />
       <body>
-        <AppTopbar />
-        <div className="layout-main-container">
-          <div className="layout-main">{children}</div>
-          <AppFooter />
-        </div>
+        <LayoutWrapper>{children}</LayoutWrapper>
+        <AppFooter />
       </body>
     </html>
   );
