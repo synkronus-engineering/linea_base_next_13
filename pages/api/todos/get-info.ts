@@ -1,10 +1,55 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+const todoList: any[] = [
+  {
+    id: 1,
+    is_complete: false,
+    task: 'First Task',
+  },
+  {
+    id: 2,
+    is_complete: false,
+    task: 'Second Task',
+  },
+  {
+    id: 3,
+    is_complete: true,
+    task: 'Third Task',
+  },
+  {
+    id: 4,
+    is_complete: false,
+    task: 'Fourth Task',
+  },
+  {
+    id: 5,
+    is_complete: false,
+    task: 'First Task',
+  },
+  {
+    id: 6,
+    is_complete: false,
+    task: 'Second Task',
+  },
+  {
+    id: 7,
+    is_complete: true,
+    task: 'Third Task',
+  },
+  {
+    id: 8,
+    is_complete: false,
+    task: 'Fourth Task',
+  },
+];
+
+const getinfo = (req: NextApiRequest, res: NextApiResponse) => {
   const response = {
-    data: [{ id: 1, task: 'First Task', is_completed: false }],
+    data: [...todoList],
     error: null,
   };
 
   res.status(200).json(response);
-}
+};
+
+export default getinfo;

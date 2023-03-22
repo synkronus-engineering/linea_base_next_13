@@ -11,9 +11,10 @@ type ColumnMeta = {
 type DataTableProps = {
   dataSet: any;
   columns: ColumnMeta[];
+  isLoading?: boolean;
 };
 
-const DynamicTable = ({ dataSet, columns }: DataTableProps) => {
+const DynamicTable = ({ dataSet, columns, isLoading }: DataTableProps) => {
   const dynamicColumns = map(columns, (col, i) => <Column key={i} {...col} />);
 
   return (
@@ -23,6 +24,7 @@ const DynamicTable = ({ dataSet, columns }: DataTableProps) => {
       scrollable
       responsiveLayout="scroll"
       scrollHeight="350px"
+      loading={isLoading ?? false}
     >
       {dynamicColumns}
     </DataTable>
