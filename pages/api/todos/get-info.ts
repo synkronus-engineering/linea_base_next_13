@@ -43,7 +43,7 @@ const todoList: any[] = [
   },
 ];
 
-const getinfo = (req: NextApiRequest, res: NextApiResponse) => {
+const getInfo = (req: NextApiRequest, res: NextApiResponse) => {
   const response = {
     data: [...todoList],
     error: null,
@@ -52,4 +52,4 @@ const getinfo = (req: NextApiRequest, res: NextApiResponse) => {
   res.status(200).json(response);
 };
 
-export default getinfo;
+export default getInfo;

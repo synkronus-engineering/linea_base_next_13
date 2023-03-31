@@ -9,7 +9,7 @@ const stats = {
 const ToDoStats = () => {
   return (
     <div className="card h-30rem">
-      <h5>Stats ToDo</h5>
+      <h5>Stats ToDos</h5>
       <div className=" flex justify-content-between">
         <Card subTitle="Total Todos" className="md:w-25rem">
           <p className="m-0">{stats.numTodos}</p>

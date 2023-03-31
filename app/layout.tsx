@@ -1,7 +1,6 @@
 import LayoutWrapper from '@/@page-sections/layouts/LayoutWrapper';
 import AppFooter from '@/components/footer/AppFooter';
 import '@/styles/demo/Demos.scss';
-import '@/styles/globals.css';
 import '@/styles/layout/layout.scss';
 import 'primeflex/primeflex.css';
 import 'primeicons/primeicons.css';
