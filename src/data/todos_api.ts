@@ -1,6 +1,7 @@
+import { APP_CFG_REST_URLS } from '@/lib/res_definitions';
 import useSWR from 'swr';
 
-const baseUrl = '/api/todos/get-info';
+const baseUrl = `${APP_CFG_REST_URLS.BASE_URL}/api/todos`;
 
 interface ITodoList {
   id: number;

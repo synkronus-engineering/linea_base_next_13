@@ -1,6 +1,6 @@
 'use client';
 import { ColumnMeta, DynamicTable } from '@/components/dataview/DynamicTable';
-import { Data, ITodoList, useTodoListData } from '@/data/todos/todos_api';
+import { Data, ITodoList, useTodoListData } from '@/data/todos_api';
 import { map } from 'lodash';
 import { Checkbox } from 'primereact/checkbox';
 
