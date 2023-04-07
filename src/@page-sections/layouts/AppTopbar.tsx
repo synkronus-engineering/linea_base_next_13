@@ -1,18 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
+import { AvatarIcon } from '@/components/avatar/AvatarAccount';
 import DialogLogin from '@/components/dialogs/DialogLogin';
-import { useSupabaseApp } from '@/providers/SupabaseProvider';
+import TopBarAccount from '@/components/dialogs/TopBarAccount';
+import HasMounted from '@/lib/HasMounted';
+import { first, get, has } from 'lodash';
+
 import Link from 'next/link';
 import { Button } from 'primereact/button';
-import { useState } from 'react';
 import LoginPage from '../login/LoginCmp';
+import useLogicDialog from '../login/useLogicDialog';
 
 const AppTopbar = () => {
-  const [dialogOpen, setToggleDialog] = useState<boolean>(false);
-  const { supabase } = useSupabaseApp();
-
-  const handleUserLog = (e: any) => {
-    setToggleDialog(true);
-  };
+  const {
+    dialogOpen,
+    setToggleDialog,
+    menuRef,
+    userGlobal,
+    handleLogout,
+    handleUserLog,
+  } = useLogicDialog();
 
   return (
     <div className="layout-topbar">
@@ -37,18 +43,37 @@ const AppTopbar = () => {
       </Link>
 
       <div className="layout-topbar-menu">
-        <button
-          type="button"
-          className="p-link layout-topbar-button"
-          onClick={(e) => handleUserLog(e)}
+        <TopBarAccount refToggle={menuRef} handleLogout={handleLogout} />
+        <HasMounted
+          fallback={
+            <i
+              className="pi pi-user"
+              style={{ fontSize: '1.5rem', marginRight: '10px' }}
+            ></i>
+          }
         >
-          <i className="pi pi-user"></i>
-          <span>Profile</span>
-        </button>
+          {userGlobal ? (
+            <AvatarIcon
+              label={first(get(userGlobal, 'user.email', 'U'))}
+              clickHandler={(e) => handleUserLog(e)}
+            />
+          ) : (
+            <button
+              type="button"
+              className="p-link layout-topbar-button"
+              onClick={(e) => handleUserLog(e)}
+            >
+              <i className="pi pi-user"></i>
+              <span>Profile</span>
+            </button>
+          )}
+        </HasMounted>
       </div>
-      <DialogLogin dialogOpen={dialogOpen} setToggleDialog={setToggleDialog}>
-        <LoginPage />
-      </DialogLogin>
+      {!userGlobal && !has(userGlobal, 'user') && (
+        <DialogLogin dialogOpen={dialogOpen} setToggleDialog={setToggleDialog}>
+          <LoginPage />
+        </DialogLogin>
+      )}
     </div>
   );
 };

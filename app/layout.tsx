@@ -1,6 +1,8 @@
 import LayoutWrapper from '@/@page-sections/layouts/LayoutWrapper';
 import AppFooter from '@/components/footer/AppFooter';
 import { createBrowserClient } from '@/lib/supabase';
+import AppProviders from '@/providers/AppStateProvider';
+import SupabaseListener from '@/providers/SupabaseListener';
 import SupabaseProvider from '@/providers/SupabaseProvider';
 import '@/styles/demo/Demos.scss';
 import '@/styles/layout/layout.scss';
@@ -23,10 +25,13 @@ export default async function RootLayout({
     <html lang="en">
       <head />
       <body>
-        <SupabaseProvider session={session}>
-          <LayoutWrapper>{children}</LayoutWrapper>
-          <AppFooter />
-        </SupabaseProvider>
+        <AppProviders>
+          <SupabaseProvider session={session}>
+            <SupabaseListener />
+            <LayoutWrapper>{children}</LayoutWrapper>
+            <AppFooter />
+          </SupabaseProvider>
+        </AppProviders>
       </body>
     </html>
   );
