@@ -14,7 +14,6 @@ export default function SupabaseListener() {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log('auth subs ***', event, session);
       if (event === 'SIGNED_IN') {
         setUserGlobalState(session as any);
       } else if (event === 'SIGNED_OUT') {
