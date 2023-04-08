@@ -10,7 +10,7 @@ const AvatarIcon = ({ label, clickHandler }: AvatarAppProps) => {
     <Avatar
       label={label || 'U'}
       size="large"
-      style={{ color: '#2196F3', cursor: 'pointer' }}
+      style={{ color: '#2196F3', cursor: 'pointer', borderRadius: '50%' }}
       shape="circle"
       onClick={clickHandler}
     />

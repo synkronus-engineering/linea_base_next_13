@@ -12,19 +12,25 @@ type DataTableProps = {
   dataSet: any;
   columns: ColumnMeta[];
   isLoading?: boolean;
+  header: any;
 };
 
-const DynamicTable = ({ dataSet, columns, isLoading }: DataTableProps) => {
+const DynamicTable = ({
+  dataSet,
+  columns,
+  isLoading,
+  header,
+}: DataTableProps) => {
   const dynamicColumns = map(columns, (col, i) => <Column key={i} {...col} />);
 
   return (
     <DataTable
       value={dataSet}
-      tableStyle={{ minWidth: '50rem' }}
+      header={header}
+      loading={isLoading ?? false}
       scrollable
       responsiveLayout="scroll"
-      scrollHeight="350px"
-      loading={isLoading ?? false}
+      scrollHeight="300px"
     >
       {dynamicColumns}
     </DataTable>

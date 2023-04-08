@@ -16,6 +16,10 @@ const getInfo = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const todosTable = supabaseServerClient.from('todos');
     switch (req.method) {
+      case REST_VERBS.POST:
+        result = await todosTable.insert({ ...obj_data }).select();
+        break;
+
       case REST_VERBS.GET:
         result = await todosTable.select('*').order('id', { ascending: true });
         break;
