@@ -16,6 +16,9 @@ const getInfo = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const todosTable = supabaseServerClient.from('todos');
     switch (req.method) {
+      case REST_VERBS.DELETE:
+        result = await todosTable.delete().eq('id', obj_data?.id).select();
+        break;
       case REST_VERBS.POST:
         result = await todosTable.insert({ ...obj_data }).select();
         break;

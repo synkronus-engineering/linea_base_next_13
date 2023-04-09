@@ -1,5 +1,6 @@
+import { createGenericFetcher, fetcher } from '@/lib/fetcher';
 import { APP_CFG_REST_URLS, REST_VERBS } from '@/lib/res_definitions';
-import useSWR, { mutate } from 'swr';
+import { mutate } from 'swr';
 
 const baseUrl = `${APP_CFG_REST_URLS.BASE_URL}/api/todos`;
 
@@ -14,31 +15,7 @@ interface Data {
   error: any;
 }
 
-async function fetcher<T>(
-  url: string,
-  res_verb?: string,
-  obj_data?: any
-): Promise<T> {
-  const res = await fetch(url, {
-    headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-    method: res_verb ?? REST_VERBS.GET,
-    body: obj_data ? JSON.stringify(obj_data) : null,
-  });
-  if (!res.ok) {
-    throw new Error('Network response was not ok.');
-  }
-  return await res.json();
-}
-
-const useTodoListData = <T>() => {
-  const { data, error } = useSWR<T, Error>(baseUrl, fetcher);
-
-  return {
-    data,
-    isLoading: !error && !data,
-    isError: error,
-  };
-};
+const useTodoListData = createGenericFetcher<Data>(baseUrl);
 
 const addTodo = async (obj_data: any) => {
   return await fetcher<ITodoList>(baseUrl, REST_VERBS.POST, {
@@ -46,5 +23,11 @@ const addTodo = async (obj_data: any) => {
   }).then((_) => mutate(baseUrl));
 };
 
-export { useTodoListData, addTodo };
+const deleteTodo = async (obj_data: any) => {
+  return await fetcher<ITodoList>(baseUrl, REST_VERBS.DELETE, {
+    obj_data: { ...obj_data },
+  }).then((_) => mutate(baseUrl));
+};
+
+export { useTodoListData, addTodo, deleteTodo };
 export type { ITodoList, Data };

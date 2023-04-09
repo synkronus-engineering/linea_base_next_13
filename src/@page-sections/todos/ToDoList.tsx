@@ -1,20 +1,41 @@
 /* eslint-disable no-case-declarations */
 'use client';
 import { ColumnMeta, DynamicTable } from '@/components/dataview/DynamicTable';
+import {
+  ConfirmDialog,
+  toggleConfirmDialog,
+} from '@/components/dialogs/DialogConfirm';
 import DynamicDialog from '@/components/dialogs/DynamicDialog';
 import { userGlobalSession } from '@/context/appContext';
-import { addTodo, Data, ITodoList, useTodoListData } from '@/data/todos_api';
+import {
+  addTodo,
+  deleteTodo,
+  ITodoList,
+  useTodoListData,
+} from '@/data/todos_api';
 import { get, map } from 'lodash';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
-import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import TodoFormCmp from './TodoFormCmp';
 
 const ToDoList = () => {
-  const { data, isLoading, isError } = useTodoListData<Data>();
+  const { data, isLoading, isError } = useTodoListData();
   const [dialogOpen, setDialogOpen] = useState(false);
   const userGlobal = useRecoilValue(userGlobalSession);
+  const [confirmDialogState, setConfirmDialogState] =
+    useRecoilState(toggleConfirmDialog);
+
+  const actionDeleteTmp = (rowData: ITodoList) => (
+    <Button
+      icon="pi pi-trash"
+      tooltip="Delete"
+      placeholder="Right"
+      className="p-button-text p-button-danger"
+      onClick={() => handleAction(rowData, 'delete')}
+    />
+  );
 
   const actionBodyCheckTmp = (rowData: ITodoList) => (
     <Checkbox checked={rowData?.is_complete}></Checkbox>
@@ -26,6 +47,25 @@ const ToDoList = () => {
 
   const handleAction = async (item: any, action: string) => {
     switch (action) {
+      case 'confirm_delete':
+        const { data, error } = await deleteTodo({ id: item.id });
+        if (data && !error) {
+          setConfirmDialogState({
+            show: false,
+            action: false,
+            data: null,
+            loading: false,
+          });
+        }
+        break;
+      case 'delete':
+        setConfirmDialogState({
+          show: true,
+          action: false,
+          data: item,
+          loading: false,
+        });
+        break;
       case 'new':
         console.log('new item ***', item, action);
         const resultOp = await addTodo({
@@ -39,6 +79,11 @@ const ToDoList = () => {
         break;
     }
   };
+
+  useEffect(() => {
+    if (confirmDialogState.action && confirmDialogState.data)
+      handleAction(confirmDialogState.data, 'confirm_delete');
+  }, [confirmDialogState]);
 
   const header = (
     <div className="flex flex-row justify-content-between align-items-center">
@@ -60,6 +105,7 @@ const ToDoList = () => {
     { field: 'count', header: '#' },
     { field: 'task', header: 'Task' },
     { field: 'is_completed', header: 'Done', body: actionBodyCheckTmp },
+    { field: '', header: 'Action', body: actionDeleteTmp },
   ];
 
   return (
@@ -77,6 +123,7 @@ const ToDoList = () => {
       >
         <TodoFormCmp handleAction={handleAction} />
       </DynamicDialog>
+      <ConfirmDialog />
     </div>
   );
 };
