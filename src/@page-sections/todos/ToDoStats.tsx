@@ -1,12 +1,10 @@
 'use client';
+import { getTodoStatsSelector } from '@/data/todos_api';
 import { Card } from 'primereact/card';
-
-const stats = {
-  numTodos: 4,
-  completed: 2,
-};
+import { useRecoilValue } from 'recoil';
 
 const ToDoStats = () => {
+  const stats = useRecoilValue(getTodoStatsSelector);
   return (
     <div className="card h-30rem">
       <h5>Stats ToDos</h5>

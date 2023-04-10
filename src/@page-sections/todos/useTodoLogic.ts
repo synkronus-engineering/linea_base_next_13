@@ -2,7 +2,12 @@ import { toggleConfirmDialog } from '@/components/dialogs/DialogConfirm';
 import { blockUiAtom } from '@/components/loader/BlockUI';
 import { toggleSnackBar } from '@/components/message/SnackBar';
 import { userGlobalSession } from '@/context/appContext';
-import { ITodoList, todoMutations, useTodoListData } from '@/data/todos_api';
+import {
+  ITodoList,
+  todoDataListAtom,
+  todoMutations,
+  useTodoListData,
+} from '@/data/todos_api';
 import { REST_VERBS } from '@/lib/res_definitions';
 import { get, map } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -15,6 +20,7 @@ export default function useTodoLogic() {
   const [confirmDialogState, setConfirmDialogState] =
     useRecoilState(toggleConfirmDialog);
   const setSnackbarState = useSetRecoilState(toggleSnackBar);
+  const setTodoDataList = useSetRecoilState(todoDataListAtom);
   const [loadingSaveBtn, setLoadingBtn] = useState(false);
   const setBlockView = useSetRecoilState(blockUiAtom);
 
@@ -106,6 +112,12 @@ export default function useTodoLogic() {
         break;
     }
   };
+
+  useEffect(() => {
+    (() => {
+      setTodoDataList(get(data, 'data', []));
+    })();
+  }, [data]);
 
   useEffect(() => {
     if (confirmDialogState.action && confirmDialogState.data)

@@ -1,5 +1,7 @@
 import { createGenericFetcher, fetcher } from '@/lib/fetcher';
 import { APP_CFG_REST_URLS } from '@/lib/res_definitions';
+import { filter } from 'lodash';
+import { atom, selector } from 'recoil';
 import { mutate } from 'swr';
 
 const baseUrl = `${APP_CFG_REST_URLS.BASE_URL}/api/todos`;
@@ -23,5 +25,33 @@ const todoMutations = async (action: string, obj_data: any) => {
   }).then((_) => mutate(baseUrl));
 };
 
-export { useTodoListData, todoMutations };
+const todoDataListAtom = atom({
+  key: 'todoDataListAtom',
+  default: [] as ITodoList[],
+});
+
+const getTodoStatsSelector = selector({
+  key: 'getTodoStatsSlctr',
+  get: ({ get }) => {
+    const todoList = get(todoDataListAtom);
+    if ((todoList || []).length > 0) {
+      return {
+        numTodos: todoList.length,
+        completed: filter(todoList, 'is_complete').length,
+      };
+    }
+
+    return {
+      numTodos: 0,
+      completed: 0,
+    };
+  },
+});
+
+export {
+  useTodoListData,
+  todoMutations,
+  todoDataListAtom,
+  getTodoStatsSelector,
+};
 export type { ITodoList, Data };
