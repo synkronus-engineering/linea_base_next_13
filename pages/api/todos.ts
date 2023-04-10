@@ -16,6 +16,12 @@ const getInfo = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const todosTable = supabaseServerClient.from('todos');
     switch (req.method) {
+      case REST_VERBS.PUT:
+        result = await todosTable
+          .update({ ...obj_data })
+          .eq('id', obj_data.id)
+          .select();
+        break;
       case REST_VERBS.DELETE:
         result = await todosTable.delete().eq('id', obj_data?.id).select();
         break;
@@ -24,7 +30,7 @@ const getInfo = async (req: NextApiRequest, res: NextApiResponse) => {
         break;
 
       case REST_VERBS.GET:
-        result = await todosTable.select('*').order('id', { ascending: true });
+        result = await todosTable.select('*').order('id', { ascending: false });
         break;
 
       default:

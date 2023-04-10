@@ -1,31 +1,23 @@
-/* eslint-disable no-case-declarations */
 'use client';
 import { ColumnMeta, DynamicTable } from '@/components/dataview/DynamicTable';
-import {
-  ConfirmDialog,
-  toggleConfirmDialog,
-} from '@/components/dialogs/DialogConfirm';
+import { ConfirmDialog } from '@/components/dialogs/DialogConfirm';
 import DynamicDialog from '@/components/dialogs/DynamicDialog';
-import { userGlobalSession } from '@/context/appContext';
-import {
-  addTodo,
-  deleteTodo,
-  ITodoList,
-  useTodoListData,
-} from '@/data/todos_api';
-import { get, map } from 'lodash';
+import { BlockUIView } from '@/components/loader/BlockUI';
+import { ITodoList } from '@/data/todos_api';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
-import { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
 import TodoFormCmp from './TodoFormCmp';
+import useTodoLogic from './useTodoLogic';
 
 const ToDoList = () => {
-  const { data, isLoading, isError } = useTodoListData();
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const userGlobal = useRecoilValue(userGlobalSession);
-  const [confirmDialogState, setConfirmDialogState] =
-    useRecoilState(toggleConfirmDialog);
+  const {
+    data,
+    loadingSaveBtn,
+    dialogOpen,
+    setDialogOpen,
+    isLoading,
+    handleAction,
+  } = useTodoLogic();
 
   const actionDeleteTmp = (rowData: ITodoList) => (
     <Button
@@ -38,52 +30,11 @@ const ToDoList = () => {
   );
 
   const actionBodyCheckTmp = (rowData: ITodoList) => (
-    <Checkbox checked={rowData?.is_complete}></Checkbox>
+    <Checkbox
+      checked={rowData?.is_complete}
+      onChange={(e) => handleAction(rowData, 'is_done')}
+    ></Checkbox>
   );
-
-  const handleCountRows = (data: ITodoList[] | undefined) => {
-    return map(data, (item, i) => ({ ...item, count: i + 1 }));
-  };
-
-  const handleAction = async (item: any, action: string) => {
-    switch (action) {
-      case 'confirm_delete':
-        const { data, error } = await deleteTodo({ id: item.id });
-        if (data && !error) {
-          setConfirmDialogState({
-            show: false,
-            action: false,
-            data: null,
-            loading: false,
-          });
-        }
-        break;
-      case 'delete':
-        setConfirmDialogState({
-          show: true,
-          action: false,
-          data: item,
-          loading: false,
-        });
-        break;
-      case 'new':
-        console.log('new item ***', item, action);
-        const resultOp = await addTodo({
-          ...item,
-          user_id: get(userGlobal, 'user.id', null),
-        });
-        console.log('resultOp ***', resultOp);
-        break;
-
-      default:
-        break;
-    }
-  };
-
-  useEffect(() => {
-    if (confirmDialogState.action && confirmDialogState.data)
-      handleAction(confirmDialogState.data, 'confirm_delete');
-  }, [confirmDialogState]);
 
   const header = (
     <div className="flex flex-row justify-content-between align-items-center">
@@ -110,18 +61,20 @@ const ToDoList = () => {
 
   return (
     <div className="card h-30rem">
-      <DynamicTable
-        dataSet={handleCountRows(data?.data)}
-        columns={columns}
-        isLoading={isLoading}
-        header={header}
-      />
+      <BlockUIView>
+        <DynamicTable
+          dataSet={data}
+          columns={columns}
+          isLoading={isLoading}
+          header={header}
+        />
+      </BlockUIView>
       <DynamicDialog
         title="ToDos"
         dialogOpen={dialogOpen}
         setToggleDialog={setDialogOpen}
       >
-        <TodoFormCmp handleAction={handleAction} />
+        <TodoFormCmp handleAction={handleAction} isLoading={loadingSaveBtn} />
       </DynamicDialog>
       <ConfirmDialog />
     </div>

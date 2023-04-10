@@ -2,6 +2,7 @@
 import { AvatarIcon } from '@/components/avatar/AvatarAccount';
 import DialogLogin from '@/components/dialogs/DialogLogin';
 import TopBarAccount from '@/components/dialogs/TopBarAccount';
+import { SnackBarApp } from '@/components/message/SnackBar';
 import HasMounted from '@/lib/HasMounted';
 import { first, get, has } from 'lodash';
 
@@ -74,6 +75,7 @@ const AppTopbar = () => {
           <LoginPage />
         </DialogLogin>
       )}
+      <SnackBarApp />
     </div>
   );
 };
