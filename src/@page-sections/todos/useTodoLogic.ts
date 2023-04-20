@@ -56,6 +56,7 @@ export default function useTodoLogic() {
               action: false,
               data: null,
               loading: false,
+              caller: '',
             });
             showToastMesg('success', 'Item updated');
           } else showToastMesg('error', 'Something went wrong');
@@ -76,6 +77,7 @@ export default function useTodoLogic() {
               action: false,
               data: null,
               loading: false,
+              caller: '',
             });
             showToastMesg('success', 'Item deleted');
           } else showToastMesg('error', 'Something went wrong');
@@ -87,6 +89,7 @@ export default function useTodoLogic() {
           action: false,
           data: item,
           loading: false,
+          caller: 'TodoListCmp',
         });
         break;
       case 'new':
@@ -120,7 +123,11 @@ export default function useTodoLogic() {
   }, [data]);
 
   useEffect(() => {
-    if (confirmDialogState.action && confirmDialogState.data)
+    if (
+      confirmDialogState.action &&
+      confirmDialogState.data &&
+      confirmDialogState.caller == 'TodoListCmp'
+    )
       handleAction(confirmDialogState.data, 'confirm_delete');
   }, [confirmDialogState]);
 

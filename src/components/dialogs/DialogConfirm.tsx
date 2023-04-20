@@ -6,7 +6,13 @@ import { atom, useRecoilState } from 'recoil';
 
 const toggleConfirmDialog = atom({
   key: 'toggleConfirmDialogAtom',
-  default: { show: false, action: false, data: null, loading: false },
+  default: {
+    show: false,
+    action: false,
+    data: null,
+    loading: false,
+    caller: '',
+  },
 });
 
 const ConfirmDialog = () => {
@@ -24,6 +30,7 @@ const ConfirmDialog = () => {
             action: false,
             data: null,
             loading: false,
+            caller: '',
           })
         }
       />
@@ -53,6 +60,7 @@ const ConfirmDialog = () => {
           action: false,
           data: null,
           loading: false,
+          caller: '',
         })
       }
     >
