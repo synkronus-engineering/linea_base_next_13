@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import { AvatarIcon } from '@/components/avatar/AvatarAccount';
-import DialogLogin from '@/components/dialogs/DialogLogin';
-import TopBarAccount from '@/components/dialogs/TopBarAccount';
-import { SnackBarApp } from '@/components/message/SnackBar';
-import HasMounted from '@/lib/HasMounted';
+import { AvatarIcon } from '@/src/components/avatar/AvatarAccount';
+import DialogLogin from '@/src/components/dialogs/DialogLogin';
+import TopBarAccount from '@/src/components/dialogs/TopBarAccount';
+import { SnackBarApp } from '@/src/components/message/SnackBar';
+import HasMounted from '@/src/lib/HasMounted';
 import { first, get, has } from 'lodash';
 
 import Link from 'next/link';
@@ -35,8 +35,8 @@ const AppTopbar = () => {
         </div>
       </Link>
 
-      <Link href="/">
-        <Button label="Home" className="p-button-link p-ripple" />
+      <Link href="/products">
+        <Button label="Products" className="p-button-link p-ripple" />
       </Link>
 
       <Link href="/todos">

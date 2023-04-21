@@ -1,5 +1,5 @@
 'use client';
-import { createBrowserClient } from '@/lib/supabase';
+import { createBrowserClient } from '@/src/lib/supabase';
 import { Session, SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { createContext, useContext, useState } from 'react';
 

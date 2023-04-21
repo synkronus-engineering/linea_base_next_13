@@ -1,5 +1,5 @@
-import ToDoList from '@/@page-sections/todos/ToDoList';
-import ToDoStats from '@/@page-sections/todos/ToDoStats';
+import ToDoList from '@/src/@page-sections/todos/ToDoList';
+import ToDoStats from '@/src/@page-sections/todos/ToDoStats';
 
 const Page = () => {
   return (

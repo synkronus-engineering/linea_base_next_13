@@ -1,5 +1,5 @@
 'use client';
-import { useSupabaseApp } from '@/providers/SupabaseProvider';
+import { useSupabaseApp } from '@/src/providers/SupabaseProvider';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 

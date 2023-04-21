@@ -1,5 +1,5 @@
 'use client';
-import { userGlobalSession } from '@/context/appContext';
+import { userGlobalSession } from '@/src/context/appContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';

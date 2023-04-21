@@ -1,7 +1,7 @@
-import BlogArticles from '@/components/landing-sections/BlogArticles';
-import FeaturesCmp from '@/components/landing-sections/FeaturesCmp';
-import FeatureServices from '@/components/landing-sections/FeatureServices';
-import HeroCmp from '@/components/landing-sections/HeroCmp';
+import BlogArticles from '@/src/components/landing-sections/BlogArticles';
+import FeaturesCmp from '@/src/components/landing-sections/FeaturesCmp';
+import FeatureServices from '@/src/components/landing-sections/FeatureServices';
+import HeroCmp from '@/src/components/landing-sections/HeroCmp';
 
 const LandingPageCmp = () => {
   return (

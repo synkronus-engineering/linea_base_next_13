@@ -1,4 +1,4 @@
-import { ActionSecureModes, secureLocalStore } from '@/lib/storage';
+import { ActionSecureModes, secureLocalStore } from '@/src/lib/storage';
 import { Session } from '@supabase/supabase-js';
 import { has } from 'lodash';
 import { atom, DefaultValue } from 'recoil';

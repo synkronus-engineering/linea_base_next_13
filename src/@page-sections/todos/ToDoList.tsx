@@ -1,9 +1,12 @@
 'use client';
-import { ColumnMeta, DynamicTable } from '@/components/dataview/DynamicTable';
-import { ConfirmDialog } from '@/components/dialogs/DialogConfirm';
-import DynamicDialog from '@/components/dialogs/DynamicDialog';
-import { BlockUIView } from '@/components/loader/BlockUI';
-import { ITodoList } from '@/data/todos_api';
+import {
+  ColumnMeta,
+  DynamicTable,
+} from '@/src/components/dataview/DynamicTable';
+import { ConfirmDialog } from '@/src/components/dialogs/DialogConfirm';
+import DynamicDialog from '@/src/components/dialogs/DynamicDialog';
+import { BlockUIView } from '@/src/components/loader/BlockUI';
+import { ITodoList } from '@/src/data/todos_api';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
 import TodoFormCmp from './TodoFormCmp';

@@ -3,8 +3,8 @@ import {
   RESPONSE_APIREST,
   RESPONSE_ERRORS,
   REST_VERBS,
-} from '@/lib/res_definitions';
-import { createApiServerClient } from '@/lib/supabase';
+} from '@/src/lib/res_definitions';
+import { createApiServerClient } from '@/src/lib/supabase';
 import { get } from 'lodash';
 import type { NextApiRequest, NextApiResponse } from 'next';
 

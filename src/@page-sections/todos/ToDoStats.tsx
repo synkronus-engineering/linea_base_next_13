@@ -1,5 +1,5 @@
 'use client';
-import { getTodoStatsSelector } from '@/data/todos_api';
+import { getTodoStatsSelector } from '@/src/data/todos_api';
 import { Card } from 'primereact/card';
 import { useRecoilValue } from 'recoil';
 

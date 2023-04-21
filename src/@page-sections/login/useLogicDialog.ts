@@ -1,5 +1,5 @@
-import { userGlobalSession } from '@/context/appContext';
-import { useSupabaseApp } from '@/providers/SupabaseProvider';
+import { userGlobalSession } from '@/src/context/appContext';
+import { useSupabaseApp } from '@/src/providers/SupabaseProvider';
 import { has } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';

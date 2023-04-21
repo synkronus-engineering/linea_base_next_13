@@ -1,4 +1,4 @@
-import LandingPageCmp from '@/@page-sections/landing';
+import LandingPageCmp from '@/src/@page-sections/landing';
 
 export default function Home() {
   return <LandingPageCmp />;

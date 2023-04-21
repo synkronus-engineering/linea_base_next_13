@@ -1,14 +1,14 @@
-import { toggleConfirmDialog } from '@/components/dialogs/DialogConfirm';
-import { blockUiAtom } from '@/components/loader/BlockUI';
-import { toggleSnackBar } from '@/components/message/SnackBar';
-import { userGlobalSession } from '@/context/appContext';
+import { toggleConfirmDialog } from '@/src/components/dialogs/DialogConfirm';
+import { blockUiAtom } from '@/src/components/loader/BlockUI';
+import { toggleSnackBar } from '@/src/components/message/SnackBar';
+import { userGlobalSession } from '@/src/context/appContext';
 import {
   ITodoList,
   todoDataListAtom,
   todoMutations,
   useTodoListData,
-} from '@/data/todos_api';
-import { REST_VERBS } from '@/lib/res_definitions';
+} from '@/src/data/todos_api';
+import { REST_VERBS } from '@/src/lib/res_definitions';
 import { get, map } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';

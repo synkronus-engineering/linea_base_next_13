@@ -1,5 +1,5 @@
-import { createGenericFetcher, fetcher } from '@/lib/fetcher';
-import { APP_CFG_REST_URLS } from '@/lib/res_definitions';
+import { createGenericFetcher, fetcher } from '@/src/lib/fetcher';
+import { APP_CFG_REST_URLS } from '@/src/lib/res_definitions';
 import { filter } from 'lodash';
 import { atom, selector } from 'recoil';
 import { mutate } from 'swr';
