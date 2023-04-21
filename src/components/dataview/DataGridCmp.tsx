@@ -1,4 +1,5 @@
 'use client';
+import { buildPathProduct } from '@/src/lib/imagePathBuilder';
 import { lowerCase } from 'lodash';
 import Link from 'next/link';
 import { Button } from 'primereact/button';
@@ -144,7 +145,7 @@ export default function BasicDemo({
             <Link href={`/products/${product?.id}`}>
               <img
                 className="w-9 shadow-2 border-round"
-                src={`/assets/products/items/${product.image}`}
+                src={buildPathProduct('items', product.image)}
                 alt={product.name}
               />
             </Link>
