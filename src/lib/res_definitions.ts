@@ -37,3 +37,8 @@ export const APP_CFG_REST_URLS = {
   BASE_URL: getBaseUrlByEnv(),
   BASE_URL_BUCKET: process.env.NEXT_PUBLIC_SUPABASE_URL,
 };
+
+export const APP_CFG_BUCKET_ATTACHMENTS = {
+  BASE_STORAGE: 'storage/v1/object/public',
+  PRODUCTS_BUCKET: 'products',
+};

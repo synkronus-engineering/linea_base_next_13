@@ -1,7 +1,9 @@
+import LazyImage from '../image/LazyImage';
+
 export default function HeroBar() {
   return (
     <div className="grid grid-nogutter surface-section text-800 flex px-6">
-      <div className="col-12 md:col-6 p-6 text-center md:text-left align-items-center is-mobile-active">
+      <div className="col-12 md:col-8 p-6 text-center md:text-left align-items-center">
         <section className="pt-6">
           <span className="block text-6xl font-bold mb-1">
             Create the screens your
@@ -27,17 +29,15 @@ export default function HeroBar() {
           </button>
         </section>
       </div>
-      <div className="col-12 md:col-6 overflow-hidden flex justify-content-end">
-        <div className="ml-auto block md:h-full">
-          <img
-            src="/assets/layout/hero/banner_hero.png"
-            alt="hero-1"
-            height={500}
-            width={400}
-            className="md:ml-auto block md:h-full"
-            style={{ clipPath: 'polygon(8% 0, 100% 0%, 100% 100%, 0 100%)' }}
-          />
-        </div>
+      <div className="col-12 md:col-4 overflow-hidden flex justify-content-end relative">
+        <LazyImage
+          src="/assets/layout/hero/banner_hero.png"
+          alt="hero-1"
+          fill
+          style={{
+            objectFit: 'cover',
+          }}
+        />
       </div>
     </div>
   );

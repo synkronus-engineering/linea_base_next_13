@@ -9,12 +9,14 @@ import { InputText } from 'primereact/inputtext';
 import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
 import { useState } from 'react';
+import LazyImage from '../image/LazyImage';
 
 interface Product {
   id: string;
   code: string;
   name: string;
   description: string;
+  path: string;
   image: string;
   price: number;
   category: string;
@@ -141,13 +143,19 @@ export default function BasicDemo({
               severity={getSeverity(product)}
             ></Tag>
           </div>
-          <div className="flex flex-column align-items-center gap-3 py-5">
+          <div className="flex flex-column align-items-center mb-3 text-center">
             <Link href={`/products/${product?.id}`}>
-              <img
-                className="w-9 shadow-2 border-round"
-                src={buildPathProduct('items', product.image)}
-                alt={product.name}
-              />
+              <div className="shadow-2 my-2 mx-0  border-round">
+                <LazyImage
+                  src={buildPathProduct(product.path, product.image)}
+                  alt={product.name}
+                  style={{
+                    objectFit: 'cover',
+                  }}
+                  height={210}
+                  width={250}
+                />
+              </div>
             </Link>
             <div className="text-2xl font-bold">{product.name}</div>
             <Rating value={product.rating} readOnly cancel={false}></Rating>

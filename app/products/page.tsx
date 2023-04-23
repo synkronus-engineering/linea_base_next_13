@@ -5,8 +5,8 @@ import { createServerClient } from '@/src/lib/supabase-server';
 // export const revalidate = 3600; // revalidate every hour
 
 /*
- 1. compile time generate first content and save in cache
- 2. after 3600 sec, background regeneration and save to cache
+1. compile time generate first content and save in cache
+2. after 3600 sec, background regeneration and save to cache
   - any product update will be available next expired interval.
 3. revalidate by demand
   - trigger with db or webhook any time there is a product update
