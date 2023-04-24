@@ -62,8 +62,8 @@ const CategoryMenu = ({
   return (
     <div className="col-fixed lg:col-2 mr-4 flex p-0 flex-column w-full lg:w-2 ">
       <div className="flex flex-column p-0">
-        {map(categoryList, (item) => (
-          <CategoryCmp title={item} />
+        {map(categoryList, (item, i) => (
+          <CategoryCmp title={item} key={i} />
         ))}
       </div>
       <div

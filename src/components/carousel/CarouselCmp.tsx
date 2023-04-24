@@ -25,7 +25,7 @@ const carouselResponsiveOptions = [
 ];
 
 const getSeverity = (product: any) => {
-  switch (product.inventoryStatus) {
+  switch (product.inventory_status) {
     case 'INSTOCK':
       return 'success';
 
@@ -58,13 +58,13 @@ export default function CarouselCmp({ products }: { products: any }) {
           </Link>
         </div>
         <div>
-          <h4 className="mb-1">{product.name}</h4>
-          <h6 className="mt-0 mb-3">${product.price}</h6>
+          <h4 className="p-0 mb-1">{product.name}</h4>
+          <h6 className="my-0">${product.price}</h6>
           <Tag
-            value={product.inventoryStatus}
+            value={product.inventory_status}
             severity={getSeverity(product)}
           ></Tag>
-          <div className="mt-5 flex flex-wrap gap-2 justify-content-center">
+          <div className="mt-2 flex flex-wrap gap-2 justify-content-center">
             <Button icon="pi pi-search" className="p-button p-button-rounded" />
             <Button
               icon="pi pi-star-fill"
@@ -77,14 +77,12 @@ export default function CarouselCmp({ products }: { products: any }) {
   };
 
   return (
-    <div className="card">
-      <Carousel
-        value={products}
-        numVisible={4}
-        numScroll={4}
-        responsiveOptions={carouselResponsiveOptions}
-        itemTemplate={productTemplate}
-      />
-    </div>
+    <Carousel
+      value={products}
+      numVisible={4}
+      numScroll={4}
+      responsiveOptions={carouselResponsiveOptions}
+      itemTemplate={productTemplate}
+    />
   );
 }

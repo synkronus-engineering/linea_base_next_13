@@ -12,11 +12,11 @@ export async function middleware(req: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session && checkProtectedRoute(req.nextUrl.pathname)) {
+  if (checkProtectedRoute(req.nextUrl.pathname) && !session) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = '/';
     return NextResponse.redirect(redirectUrl);
-  } else if (!session && checkProtectedEndPoint(req.nextUrl.pathname)) {
+  } else if (checkProtectedEndPoint(req.nextUrl.pathname) && !session) {
     return NextResponse.redirect('/api/unauthorized');
   }
 
@@ -24,5 +24,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|assets).*)'],
 };

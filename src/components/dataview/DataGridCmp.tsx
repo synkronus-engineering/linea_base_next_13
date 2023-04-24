@@ -207,17 +207,15 @@ export default function BasicDemo({
   );
 
   return (
-    <div className="card">
-      <DataView
-        value={filteredValue || dataViewValue}
-        itemTemplate={itemTemplate}
-        layout={layout}
-        header={dataViewHeader}
-        paginator
-        rows={9}
-        sortOrder={sortOrder}
-        sortField={sortField}
-      />
-    </div>
+    <DataView
+      value={filteredValue || dataViewValue}
+      itemTemplate={itemTemplate}
+      layout={layout}
+      header={dataViewHeader}
+      paginator
+      rows={9}
+      sortOrder={sortOrder}
+      sortField={sortField}
+    />
   );
 }

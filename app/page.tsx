@@ -1,4 +1,5 @@
 import CarouselProductCmp from '@/src/@page-sections/landing/CarouselProductCmp';
+import DividerCmp from '@/src/components/divider/DividerCmp';
 import BlogArticles from '@/src/components/landing-sections/BlogArticles';
 import FeatureServices from '@/src/components/landing-sections/FeatureServices';
 import FeaturesCmp from '@/src/components/landing-sections/FeaturesCmp';
@@ -20,6 +21,7 @@ export default async function Page() {
           <FeatureServices />
         </div>
         <div className="surface-section  py-2 md:px-6 lg:px-8 ">
+          <DividerCmp title="Flash deals" />
           <Suspense fallback={<SkeletonCmp gridView={[3, 3, 3, 3]} />}>
             {/* @ts-expect-error Async Server Component */}
             <CarouselProductCmp dataSet={fetch(baseUrl)} />

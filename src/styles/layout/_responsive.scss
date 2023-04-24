@@ -12,7 +12,7 @@
     &.layout-overlay {
       .layout-main-container {
         margin-left: 0;
-        padding-left: 2rem;
+        padding-left: 1rem;
       }
 
       .layout-sidebar {
@@ -31,6 +31,10 @@
       }
     }
 
+    .is-mobile-inactive {
+      display: none !important;
+    }
+
     &.layout-static {
       .layout-main-container {
         margin-left: 300px;
@@ -44,7 +48,7 @@
 
         .layout-main-container {
           margin-left: 0;
-          padding-left: 2rem;
+          padding-left: 1rem;
         }
       }
     }
@@ -63,7 +67,11 @@
   .layout-wrapper {
     .layout-main-container {
       margin-left: 0;
-      padding-left: 2rem;
+      padding-left: 1rem;
+    }
+
+    .is-mobile-active {
+      display: none !important;
     }
 
     .layout-sidebar {

@@ -2,6 +2,7 @@ import LayoutWrapper from '@/src/@page-sections/layouts/LayoutWrapper';
 import AppFooter from '@/src/components/footer/AppFooter';
 import { createBrowserClient } from '@/src/lib/supabase';
 import AppProviders from '@/src/providers/AppStateProvider';
+import { MobileViewListener } from '@/src/providers/MobileViewListener';
 import SupabaseListener from '@/src/providers/SupabaseListener';
 import SupabaseProvider from '@/src/providers/SupabaseProvider';
 import '@/src/styles/demo/Demos.scss';
@@ -24,8 +25,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head />
-      <body>
+      <body className="layout-wrapper">
         <AppProviders>
+          <MobileViewListener />
           <SupabaseProvider session={session}>
             <SupabaseListener />
             <LayoutWrapper>{children}</LayoutWrapper>
