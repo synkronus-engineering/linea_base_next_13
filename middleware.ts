@@ -2,7 +2,8 @@ import { createMiddlewareSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-const checkProtectedRoute = (path: string) => path.startsWith('/todos');
+const checkProtectedRoute = (path: string) =>
+  path.startsWith('/todos') || path.startsWith('/account');
 const checkProtectedEndPoint = (path: string) => path.startsWith('/api/todos');
 
 export async function middleware(req: NextRequest) {
