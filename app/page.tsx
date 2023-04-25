@@ -1,9 +1,12 @@
 import CarouselProductCmp from '@/src/@page-sections/landing/CarouselProductCmp';
+import HotDealsCmp from '@/src/@page-sections/landing/HotDealsCmp';
 import DividerCmp from '@/src/components/divider/DividerCmp';
 import BlogArticles from '@/src/components/landing-sections/BlogArticles';
 import FeatureServices from '@/src/components/landing-sections/FeatureServices';
 import FeaturesCmp from '@/src/components/landing-sections/FeaturesCmp';
 import HeroCmp from '@/src/components/landing-sections/HeroCmp';
+import DynamicMsgCmp from '@/src/components/message/DynamicMsgCmp';
+import ErrorBoundary from '@/src/components/utils/ErrorBoundary';
 import SkeletonCmp from '@/src/components/utils/SkeletonCmp';
 import { APP_CFG_REST_URLS } from '@/src/lib/res_definitions';
 import { Suspense } from 'react';
@@ -26,6 +29,22 @@ export default async function Page() {
             {/* @ts-expect-error Async Server Component */}
             <CarouselProductCmp dataSet={fetch(baseUrl)} />
           </Suspense>
+        </div>
+        <div className="surface-ground px-4 py-2 md:px-6 lg:px-8">
+          <DividerCmp title="Hot deals" />
+          <ErrorBoundary
+            fallback={
+              <DynamicMsgCmp
+                severity={'error'}
+                summary={'Error loading the component'}
+              />
+            }
+          >
+            <Suspense fallback={<SkeletonCmp gridView={[3, 3, 3, 3]} />}>
+              {/* @ts-expect-error Async Server Component */}
+              <HotDealsCmp data={fetch(baseUrl)} />
+            </Suspense>
+          </ErrorBoundary>
         </div>
         <div className="surface-section py-2 text-center">
           {/* Blog Articles */}
