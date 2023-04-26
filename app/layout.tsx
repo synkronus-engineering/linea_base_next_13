@@ -7,6 +7,7 @@ import SupabaseListener from '@/src/providers/SupabaseListener';
 import SupabaseProvider from '@/src/providers/SupabaseProvider';
 import '@/src/styles/demo/Demos.scss';
 import '@/src/styles/layout/layout.scss';
+import 'nprogress/nprogress.css';
 import 'primeflex/primeflex.css';
 import 'primeicons/primeicons.css';
 import 'primereact/resources/primereact.min.css';
