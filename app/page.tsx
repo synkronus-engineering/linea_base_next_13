@@ -8,10 +8,12 @@ import HeroCmp from '@/src/components/landing-sections/HeroCmp';
 import DynamicMsgCmp from '@/src/components/message/DynamicMsgCmp';
 import ErrorBoundary from '@/src/components/utils/ErrorBoundary';
 import SkeletonCmp from '@/src/components/utils/SkeletonCmp';
-import { APP_CFG_REST_URLS } from '@/src/lib/res_definitions';
+import { supabaseClient } from '@/src/lib/supabase';
 import { Suspense } from 'react';
 
-const baseUrl = `${APP_CFG_REST_URLS.BASE_URL}/api/products`;
+async function fetchProductDeals() {
+  return supabaseClient().from('product_deals').select('*, products(*)');
+}
 
 export default async function Page() {
   return (
@@ -27,9 +29,10 @@ export default async function Page() {
           <DividerCmp title="Flash deals" />
           <Suspense fallback={<SkeletonCmp gridView={[3, 3, 3, 3]} />}>
             {/* @ts-expect-error Async Server Component */}
-            <CarouselProductCmp dataSet={fetch(baseUrl)} />
+            <CarouselProductCmp dataSet={fetchProductDeals()} />
           </Suspense>
         </div>
+
         <div className="surface-ground px-4 py-2 md:px-6 lg:px-8">
           <DividerCmp title="Hot deals" />
           <ErrorBoundary
@@ -42,7 +45,7 @@ export default async function Page() {
           >
             <Suspense fallback={<SkeletonCmp gridView={[3, 3, 3, 3]} />}>
               {/* @ts-expect-error Async Server Component */}
-              <HotDealsCmp data={fetch(baseUrl)} />
+              <HotDealsCmp data={fetchProductDeals()} />
             </Suspense>
           </ErrorBoundary>
         </div>

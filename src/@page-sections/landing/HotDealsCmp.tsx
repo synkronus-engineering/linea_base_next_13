@@ -1,6 +1,6 @@
 import LazyImage from '@/src/components/image/LazyImage';
 import { buildPathProduct } from '@/src/lib/imagePathBuilder';
-import { get, map, take } from 'lodash';
+import { get, groupBy, map, take } from 'lodash';
 import Link from 'next/link';
 
 const CarProductHotDeal = ({ product }: { product: any }) => {
@@ -44,15 +44,16 @@ const CarProductHotDeal = ({ product }: { product: any }) => {
 };
 
 const HotDealsCmp = async ({ data }: { data: Promise<Response> }) => {
-  const productData = (await data
-    .then((res) => res.json())
-    .then((d) => d.data)) as any;
+  const { data: dataSet } = (await data) as any;
 
   return (
     <div className="grid -mt-3 -ml-3 -mr-3">
-      {map(take(get(productData, 'hot_deals', []), 4), (item: any) => (
-        <CarProductHotDeal product={item?.products} />
-      ))}
+      {map(
+        take(get(groupBy(dataSet, 'deals'), 'hot_deals', []), 4),
+        (item: any) => (
+          <CarProductHotDeal product={item?.products} />
+        )
+      )}
     </div>
   );
 };
