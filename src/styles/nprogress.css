@@ -1,0 +1,10 @@
+.bar {
+  top: 0;
+  left: 0;
+  position: 'fixed';
+  overflow: 'hidden';
+  height: '3px !important';
+  backgroundcolor: blue.main;
+  zindex: '99999999 !important';
+  borderradius: '0px 300px 300px 0px !important';
+}
