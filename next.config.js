@@ -4,7 +4,11 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ['vcuonjyqailydlqkjteh.supabase.co', 'localhost'],
+    domains: [
+      'hiveznmewgxqdpwwabrn.supabase.co',
+      'vcuonjyqailydlqkjteh.supabase.co',
+      'localhost',
+    ],
   },
 };
 
