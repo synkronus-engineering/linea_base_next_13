@@ -25,20 +25,22 @@ const imageAuxGallery = [
 
 const ProductDetailsCmp = ({ dataSet }: { dataSet: any }) => {
   return (
-    <div className="surface-section px-4 py-8 md:px-6 lg:px-8">
-      <div className="grid mb-7">
-        <div className="col-12 lg:col-6">
-          <ImageGalleryColumns
-            imageSrc={dataSet}
-            imageThumbs={imageAuxGallery}
-          />
+    <>
+      <div className="surface-section px-4 py-8 md:px-6 lg:px-8">
+        <div className="grid mb-7">
+          <div className="col-12 lg:col-6">
+            <ImageGalleryColumns
+              imageSrc={dataSet}
+              imageThumbs={imageAuxGallery}
+            />
+          </div>
+          <div className="col-12 lg:col-6 py-3 lg:pl-6">
+            <CardDetails data={dataSet} />
+          </div>
         </div>
-        <div className="col-12 lg:col-6 py-3 lg:pl-6">
-          <CardDetails data={dataSet} />
-        </div>
+        <TabViewCmp />
       </div>
-      <TabViewCmp />
-    </div>
+    </>
   );
 };
 

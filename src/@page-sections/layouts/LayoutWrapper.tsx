@@ -1,6 +1,6 @@
 'use client';
 import '@/src/styles/nprogress.css';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import nProgress from 'nprogress';
 import { ReactNode, useEffect } from 'react';
 import AppTopbar from './AppTopbar';
@@ -11,7 +11,6 @@ type WrapperProps = { children: ReactNode };
 
 const LayoutWrapper = ({ children }: WrapperProps) => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     (() => {
@@ -20,7 +19,7 @@ const LayoutWrapper = ({ children }: WrapperProps) => {
         nProgress.done();
       }, 500);
     })();
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return (
     <>

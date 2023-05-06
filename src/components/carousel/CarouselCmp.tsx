@@ -43,7 +43,10 @@ const getSeverity = (product: any) => {
 export default function CarouselCmp({ products }: { products: any }) {
   const productTemplate = (product: any) => {
     return (
-      <div className="border-1 surface-border border-round m-1 text-center py-2">
+      <div
+        className="border-1 surface-border border-round m-1 text-center py-2"
+        key={product?.id}
+      >
         <div className="mb-1">
           <Link href={`/products/${product?.id}`}>
             <div className="shadow-1 my-0 mx-0">
