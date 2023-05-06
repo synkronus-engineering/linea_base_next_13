@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -12,6 +13,8 @@ export default async function handler(
     await res.revalidate('/products');
     return res.json({ revalidated: true });
   } catch (err) {
-    return res.status(500).send('Error revalidating');
+    return res
+      .status(500)
+      .send(`Error revalidating: ${get(err, 'message', 'unknown')}`);
   }
 }

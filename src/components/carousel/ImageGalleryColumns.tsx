@@ -7,11 +7,12 @@ const ImageGalleryColumns = ({ imageSrc, imageThumbs }: ImgProps) => {
   return (
     <div className="flex">
       <div className="flex flex-column w-2 justify-content-between">
-        {map(imageThumbs, (srcImg) => (
+        {map(imageThumbs, (srcImg, i) => (
           <img
             src={`${srcImg?.itemImageSrc}`}
             alt={`${srcImg?.alt}`}
             className="w-full cursor-pointer border-1 border-round border-transparent transition-colors transition-duration-150 border-primary"
+            key={i}
           />
         ))}
       </div>

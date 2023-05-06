@@ -50,8 +50,8 @@ const HotDealsCmp = async ({ data }: { data: Promise<Response> }) => {
     <div className="grid -mt-3 -ml-3 -mr-3">
       {map(
         take(get(groupBy(dataSet, 'deals'), 'hot_deals', []), 4),
-        (item: any) => (
-          <CarProductHotDeal product={item?.products} />
+        (item: any, i) => (
+          <CarProductHotDeal product={item?.products} key={i} />
         )
       )}
     </div>
