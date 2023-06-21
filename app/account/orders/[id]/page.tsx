@@ -1,5 +1,7 @@
 import OrderDetail from '@/src/@page-sections/orders/OrderDetailCmp';
-import { createServerClient } from '@/src/lib/supabase-server';
+import { createApiServerClient } from '@/src/lib/supabase';
+import { cookies } from 'next/headers';
+
 import { notFound } from 'next/navigation';
 
 // async function fetchOrders(params: { id: any }) {
@@ -38,10 +40,12 @@ import { notFound } from 'next/navigation';
 // }
 
 async function fetchOrders(params: { id: any }) {
-  const supabaseClient = createServerClient();
-  let { data } = await supabaseClient.rpc('get_order_with_details', {
-    prm_order_id: params?.id,
-  });
+  let { data } = await createApiServerClient(cookies).rpc(
+    'get_order_with_details',
+    {
+      prm_order_id: params?.id,
+    }
+  );
   return data as any;
 }
 

@@ -1,6 +1,6 @@
 import ProductListCmp from '@/src/@page-sections/products';
 import CategoryFilterLayout from '@/src/@page-sections/products/CategoryFilterLayout';
-import { createServerClient } from '@/src/lib/supabase-server';
+import { supabaseClient } from '@/src/lib/supabase';
 
 // export const revalidate = 3600; // revalidate every hour
 
@@ -14,8 +14,7 @@ import { createServerClient } from '@/src/lib/supabase-server';
 
 // static with revalidation or Incremental static regeneration.
 async function fetchProducts() {
-  const supabaseClient = createServerClient();
-  const { data } = await supabaseClient.from('products').select('*');
+  const { data } = await supabaseClient().from('products').select('*');
   return data as Array<any>;
 }
 

@@ -28,7 +28,7 @@ export default async function Page() {
         <div className="surface-section  py-2 md:px-6 lg:px-8 ">
           <DividerCmp title="Flash deals" />
           <Suspense fallback={<SkeletonCmp gridView={[3, 3, 3, 3]} />}>
-            {/* @ts-expect-error Async Server Component */}
+            {/* @ts-ignore Async Server Component */}
             <CarouselProductCmp dataSet={fetchProductDeals()} />
           </Suspense>
         </div>
@@ -44,7 +44,7 @@ export default async function Page() {
             }
           >
             <Suspense fallback={<SkeletonCmp gridView={[3, 3, 3, 3]} />}>
-              {/* @ts-expect-error Async Server Component */}
+              {/* @ts-ignore Async Server Component */}
               <HotDealsCmp data={fetchProductDeals()} />
             </Suspense>
           </ErrorBoundary>

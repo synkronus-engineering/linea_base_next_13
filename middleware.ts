@@ -1,4 +1,4 @@
-import { createMiddlewareSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
@@ -8,7 +8,7 @@ const checkProtectedEndPoint = (path: string) => path.startsWith('/api/todos');
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
-  const supabase = createMiddlewareSupabaseClient({ req, res });
+  const supabase = createMiddlewareClient({ req, res });
   const {
     data: { session },
   } = await supabase.auth.getSession();
@@ -18,7 +18,7 @@ export async function middleware(req: NextRequest) {
     redirectUrl.pathname = '/';
     return NextResponse.redirect(redirectUrl);
   } else if (checkProtectedEndPoint(req.nextUrl.pathname) && !session) {
-    return NextResponse.redirect('/api/unauthorized');
+    return NextResponse.redirect('/api/auth');
   }
 
   return res;
