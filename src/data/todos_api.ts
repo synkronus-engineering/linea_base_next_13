@@ -19,10 +19,16 @@ interface Data {
 
 const useTodoListData = createGenericFetcher<Data>(baseUrl);
 
-const todoMutations = async (action: string, obj_data: any) => {
-  return await fetcher<ITodoList>(baseUrl, action, {
-    obj_data: { ...obj_data },
-  }).then((_) => mutate(baseUrl));
+const todoMutations = async (
+  action: string,
+  obj_data: any,
+  searchParams?: any
+) => {
+  return await fetcher<ITodoList>(
+    `${searchParams ? baseUrl + '?' + searchParams : baseUrl}`,
+    action,
+    { obj_data: { ...obj_data } }
+  ).then((_) => mutate(baseUrl));
 };
 
 const todoDataListAtom = atom({

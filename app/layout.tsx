@@ -7,6 +7,7 @@ import SupabaseListener from '@/src/providers/SupabaseListener';
 import SupabaseProvider from '@/src/providers/SupabaseProvider';
 import '@/src/styles/demo/Demos.scss';
 import '@/src/styles/layout/layout.scss';
+import { Analytics } from '@vercel/analytics/react';
 import 'nprogress/nprogress.css';
 import 'primeflex/primeflex.css';
 import 'primeicons/primeicons.css';
@@ -35,6 +36,7 @@ export default async function RootLayout({
             <AppFooter />
           </SupabaseProvider>
         </AppProviders>
+        <Analytics />
       </body>
     </html>
   );

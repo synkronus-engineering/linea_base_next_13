@@ -6,7 +6,7 @@ interface ErrorBoundaryProps {
   children: React.ReactNode;
 }
 
-export default class ErrorBoundary extends Component<ErrorBoundaryProps> {
+export default class ErrorBoundary extends Component<any> {
   state = { hasError: false, error: '' };
 
   constructor(props: Readonly<ErrorBoundaryProps>) {

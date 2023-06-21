@@ -44,10 +44,8 @@ export default function useTodoLogic() {
           setBlockView(true);
           const { data: dtUpdate, error: errUpdate } = await todoMutations(
             REST_VERBS.PUT,
-            {
-              is_complete: !item.is_complete,
-              id: item.id,
-            }
+            { is_complete: !item.is_complete },
+            `id=${item.id}`
           );
           setBlockView(false);
           if (dtUpdate && !errUpdate) {
@@ -67,9 +65,8 @@ export default function useTodoLogic() {
         {
           const { data: dtDel, error: errDel } = await todoMutations(
             REST_VERBS.DELETE,
-            {
-              id: item.id,
-            }
+            null,
+            `id=${item.id}`
           );
           if (dtDel && !errDel) {
             setConfirmDialogState({
