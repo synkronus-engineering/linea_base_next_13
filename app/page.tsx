@@ -1,4 +1,4 @@
-import BlogArticles from '@/src/@page-sections/blog/BlogArticles';
+import BlogArticles from '@/src/@page-sections/blog/BlogPost';
 import CarouselProductCmp from '@/src/@page-sections/landing/CarouselProductCmp';
 import HotDealsCmp from '@/src/@page-sections/landing/HotDealsCmp';
 import DividerCmp from '@/src/components/divider/DividerCmp';
@@ -13,6 +13,13 @@ import { Suspense } from 'react';
 
 async function fetchProductDeals() {
   return supabaseClient().from('product_deals').select('*, products(*)');
+}
+
+async function fetchBlogs() {
+  return supabaseClient()
+    .from('blog')
+    .select('*, article_comments(*)')
+    .order('id', { ascending: true });
 }
 
 export default async function Page() {
@@ -51,7 +58,7 @@ export default async function Page() {
         </div>
         <div className="surface-section py-2 text-center">
           {/* Blog Articles */}
-          <BlogArticles />
+          <BlogArticles data={fetchBlogs()} />
         </div>
         <div className="surface-ground px-4 py-8 md:px-6 lg:px-8 text-center">
           {/* Features.. */}

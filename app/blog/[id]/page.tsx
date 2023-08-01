@@ -1,27 +1,39 @@
-// import { createApiServerClient } from 'lib/supabase';
-// import { cookies } from 'next/headers';
+import BlogDetail from '@/src/@page-sections/blog/BlogArticle';
+import { supabaseClient } from '@/src/lib/supabase';
+import { filter } from 'lodash';
 
-import BlogDetail from '@/src/@page-sections/blog/BlogDetail';
+export async function fetchData(id: any) {
+  const blogByIdPrms = supabaseClient()
+    .from('blog')
+    .select(
+      '*, article_comments(*, user_info:profiles(*)).order(id, { ascending: false })'
+    )
+    .eq('id', id)
+    .maybeSingle();
 
-// export async function generateStaticParams() {
-//   const { data } = await supabaseClient()
-//     .from('products')
-//     .select(`id`)
-//     .eq('active', true);
-//   return [...map(data, (p) => ({ params: { id: `${p.id}` } }))];
-// }
+  const blogListPrms = supabaseClient()
+    .from('blog')
+    .select('*')
+    .order('id', { ascending: false });
 
-// async function fetchData() {
-//   const { data } = await createApiServerClient(cookies)
-//     .from('orders')
-//     .select('*');
-//   return data as Array<any>;
-// }
+  const [blogItem, blogList] = await Promise.all([blogByIdPrms, blogListPrms]);
 
-const Page = async ({ params }: { params: any }) => {
-  // const data = await fetchData();
-  console.log('blog params ***', params);
-  return <BlogDetail />;
+  return {
+    blogItem: blogItem?.data,
+    blogList: filter(blogList?.data, (i) => Number(i?.id) !== Number(id)),
+  };
+}
+
+const Page = async ({
+  params,
+  searchParams,
+}: {
+  params: any;
+  searchParams: any;
+}) => {
+  const { blogItem, blogList } = await fetchData(params?.id);
+
+  return <BlogDetail blogItem={blogItem} blogList={blogList} />;
 };
 
 export default Page;
