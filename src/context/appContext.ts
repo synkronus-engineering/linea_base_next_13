@@ -1,7 +1,9 @@
 import { ActionSecureModes, secureLocalStore } from '@/src/lib/storage';
 import { Session } from '@supabase/supabase-js';
 import { has, isNil } from 'lodash';
-import { DefaultValue, atom } from 'recoil';
+import { DefaultValue, atom, selector } from 'recoil';
+import { getProfileInfo_ClientEndPoint } from '../data/profile_api';
+import { REST_VERBS } from '../lib/res_definitions';
 
 type MaybeSession = Session | null;
 
@@ -22,6 +24,23 @@ const userGlobalSession = atom({
       );
     },
   ],
+});
+
+const profileInfoSlctr = selector({
+  key: 'profileInfoSlctr',
+  get: async ({ get }) => {
+    const userSession = get(userGlobalSession);
+    if (has(userSession, 'user.id')) {
+      const { data: dtProfile, error: errProfile } =
+        (await getProfileInfo_ClientEndPoint(
+          REST_VERBS.POST,
+          'info',
+          null
+        )) as any;
+      return dtProfile && !errProfile ? dtProfile : {};
+    }
+    return new DefaultValue();
+  },
 });
 
 function generateUUID() {
@@ -53,4 +72,4 @@ const usrSsnCookieAtom = atom({
   ],
 });
 
-export { userGlobalSession, usrSsnCookieAtom };
+export { profileInfoSlctr, userGlobalSession, usrSsnCookieAtom };

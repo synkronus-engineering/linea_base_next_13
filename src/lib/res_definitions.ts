@@ -1,3 +1,5 @@
+import { get } from 'lodash';
+
 export interface RESPONSE_APIREST {
   data: any;
   status: any;
@@ -41,4 +43,12 @@ export const APP_CFG_REST_URLS = {
 export const APP_CFG_BUCKET_ATTACHMENTS = {
   BASE_STORAGE: 'storage/v1/object/public',
   PRODUCTS_BUCKET: 'products',
+};
+
+export const handleError = (error: any): RESPONSE_APIREST => {
+  return {
+    data: null,
+    status: API_STATUS.SERVER_ERROR,
+    error: get(error, 'message', 'server error'),
+  };
 };

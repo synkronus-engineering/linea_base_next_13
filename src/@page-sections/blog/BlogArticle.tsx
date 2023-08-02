@@ -1,17 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import { handleSubmit } from '@/app/blog/blog_actions';
+import { handleFormServerAction } from '@/app/blog/blog_actions';
 import DynamicDialog from '@/src/components/dialogs/DynamicDialog';
 import { toggleSnackBar } from '@/src/components/message/SnackBar';
 import {
   PaginatorCmp,
   usePaginator,
 } from '@/src/components/utils/PaginatorCmp';
-import { userGlobalSession, usrSsnCookieAtom } from '@/src/context/appContext';
+import {
+  profileInfoSlctr,
+  userGlobalSession,
+  usrSsnCookieAtom,
+} from '@/src/context/appContext';
 import { first as firstAsh, indexOf, isNil, map, split } from 'lodash';
 import Link from 'next/link';
 import { classNames } from 'primereact/utils';
-import { useRef, useState } from 'react';
+import { useRef, useState, useTransition } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 export const AvatarProCmp = ({ url_avatar }: { url_avatar: string }) => {
@@ -197,11 +201,18 @@ const ReplyComments = ({ replies }: { replies: any }) => {
   );
 };
 
-const PostFormRepliesCmp = () => {
+const PostFormRepliesCmp = ({
+  handleSubmit,
+  formRef,
+}: {
+  handleSubmit: any;
+  formRef: any;
+}) => {
   const [comment, setComment] = useState('');
+  const [isPending, startTransition] = useTransition();
 
   return (
-    <form>
+    <form ref={formRef}>
       <div className="mb-3 p-fluid">
         <textarea
           className="p-inputtextarea p-inputtext p-component"
@@ -211,7 +222,17 @@ const PostFormRepliesCmp = () => {
         ></textarea>
       </div>
       <div className="flex justify-content-end">
-        <button className="p-button p-component">
+        <button
+          onClick={() => startTransition(() => handleSubmit(comment))}
+          className="p-button p-component"
+          disabled={isPending}
+        >
+          {isPending ? (
+            <i
+              className="pi pi-spin pi-spinner mr-2"
+              style={{ fontSize: '1rem' }}
+            />
+          ) : null}
           <span className="p-button-label p-c">Post Comment</span>
         </button>
       </div>
@@ -221,6 +242,36 @@ const PostFormRepliesCmp = () => {
 
 const ArticleComments = ({ blogItem }: { blogItem: any }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [articleSelected, setArticleSelected] = useState(null) as any;
+  const userGlobal = useRecoilValue(profileInfoSlctr);
+  const formRef = useRef() as any;
+  const setSnackbarState = useSetRecoilState(toggleSnackBar);
+
+  const handleFormAction = async (comment: string) => {
+    const result = await handleFormServerAction(
+      { comment, article_id: articleSelected?.id },
+      userGlobal,
+      blogItem?.id,
+      false
+    );
+    if (!result.error) {
+      formRef?.current?.reset();
+      setDialogOpen(false);
+      setSnackbarState({
+        show: true,
+        msg: 'Success',
+        title: 'Confirm Update',
+        type: 'success',
+      });
+    } else {
+      setSnackbarState({
+        show: true,
+        msg: `${result.error?.message}`,
+        title: 'Action error',
+        type: 'error',
+      });
+    }
+  };
 
   return (
     <>
@@ -240,6 +291,10 @@ const ArticleComments = ({ blogItem }: { blogItem: any }) => {
                   <span
                     className="p-button-icon p-button-icon-left pi pi-comment md:ml-auto cursor-pointer"
                     style={{ fontSize: '1rem' }}
+                    onClick={() => {
+                      setArticleSelected(comment);
+                      setDialogOpen(true);
+                    }}
                   ></span>
                 </div>
                 <p className="font-semibold text-600 m-0 text-sm">
@@ -259,27 +314,28 @@ const ArticleComments = ({ blogItem }: { blogItem: any }) => {
         dialogOpen={dialogOpen}
         setToggleDialog={setDialogOpen}
       >
-        <PostFormRepliesCmp />
+        <PostFormRepliesCmp handleSubmit={handleFormAction} formRef={formRef} />
       </DynamicDialog>
     </>
   );
 };
 
 const PostFormCmp = ({ blogItem }: { blogItem: any }) => {
-  const userGlobal = useRecoilValue(userGlobalSession);
+  const userGlobal = useRecoilValue(profileInfoSlctr);
   const setSnackbarState = useSetRecoilState(toggleSnackBar);
   const formRef = useRef() as any;
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFormSubmit = async (formData: FormData) => {
-    //...
-
-    const result = (await handleSubmit(
+    setIsLoading(true);
+    const result = (await handleFormServerAction(
       formData,
-      userGlobal?.user?.id,
-      blogItem?.id
+      userGlobal,
+      blogItem?.id,
+      true
     )) as any;
 
-    if (result.data && !result.error) {
+    if (!result.error) {
       formRef?.current?.reset();
       setSnackbarState({
         show: true,
@@ -295,7 +351,9 @@ const PostFormCmp = ({ blogItem }: { blogItem: any }) => {
         type: 'error',
       });
     }
+    setIsLoading(false);
   };
+
   return (
     <form ref={formRef}>
       <div className="text-xl text-900 mb-4 font-bold mt-8">Post a Comment</div>
@@ -307,7 +365,14 @@ const PostFormCmp = ({ blogItem }: { blogItem: any }) => {
         ></textarea>
       </div>
       <div className="flex justify-content-end">
-        <button className="p-button p-component" formAction={handleFormSubmit}>
+        <button
+          formAction={handleFormSubmit}
+          className="p-button p-component"
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <i className="pi pi-spin pi-spinner" style={{ fontSize: '1rem' }} />
+          ) : null}
           <span className="p-button-label p-c">Post Comment</span>
         </button>
       </div>
