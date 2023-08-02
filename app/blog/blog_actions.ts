@@ -45,3 +45,26 @@ export const handleFormServerAction = async (
 
   return result;
 };
+
+export const handleArticleLikes = async (
+  like_it: boolean,
+  userid: any,
+  blog_id: any
+) => {
+  const result = await supabaseClient().rpc('update_likes_array', {
+    userid,
+    like_it,
+    blog_id,
+  });
+
+  if (!result.error) revalidatePath(`/blog/${blog_id}`);
+  return result;
+};
+
+export const handleArticleViews = async (blog_id: any, anon_ssn: any) => {
+  const result = await supabaseClient().rpc('insert_article_views', {
+    blog_id,
+    anon_ssn,
+  });
+  if (result?.data && blog_id) revalidatePath(`/blog/${blog_id}`);
+};

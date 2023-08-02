@@ -1,21 +1,28 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import { handleFormServerAction } from '@/app/blog/blog_actions';
+import {
+  handleArticleLikes,
+  handleArticleViews,
+  handleFormServerAction,
+} from '@/app/blog/blog_actions';
 import DynamicDialog from '@/src/components/dialogs/DynamicDialog';
 import { toggleSnackBar } from '@/src/components/message/SnackBar';
 import {
   PaginatorCmp,
   usePaginator,
 } from '@/src/components/utils/PaginatorCmp';
+import { profileInfoSlctr, usrSsnCookieAtom } from '@/src/context/appContext';
 import {
-  profileInfoSlctr,
-  userGlobalSession,
-  usrSsnCookieAtom,
-} from '@/src/context/appContext';
-import { first as firstAsh, indexOf, isNil, map, split } from 'lodash';
+  findIndex,
+  first as firstAsh,
+  indexOf,
+  isNil,
+  map,
+  split,
+} from 'lodash';
 import Link from 'next/link';
 import { classNames } from 'primereact/utils';
-import { useRef, useState, useTransition } from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 export const AvatarProCmp = ({ url_avatar }: { url_avatar: string }) => {
@@ -34,10 +41,29 @@ export const AvatarProCmp = ({ url_avatar }: { url_avatar: string }) => {
 
 const BtnThumbsUp = ({ blogItem }: { blogItem: any }) => {
   const [btnUp, setBtnUp] = useState(false);
-  const userGlobal = useRecoilValue(userGlobalSession);
+  const userGlobal = useRecoilValue(profileInfoSlctr);
   const [btnUpFill, setBtnUpFill] = useState(
-    indexOf(blogItem?.likes, userGlobal?.user?.id) > -1
+    indexOf(blogItem?.likes, userGlobal?.id) > -1
   );
+  const setSnackbarState = useSetRecoilState(toggleSnackBar);
+
+  const handleClick = () => {
+    if (isNil(userGlobal)) {
+      setSnackbarState({
+        show: true,
+        msg: 'requiere login user',
+        title: 'Likes',
+        type: 'warn',
+      });
+      return;
+    }
+    setBtnUp(true);
+    setTimeout(() => {
+      setBtnUp(false);
+      handleArticleLikes(!btnUpFill, userGlobal?.id, blogItem?.id);
+      setBtnUpFill((prev) => !prev);
+    }, 500);
+  };
 
   return (
     <div className="flex flex-column sm:flex-row my-8 w-full gap-3">
@@ -59,6 +85,7 @@ const BtnThumbsUp = ({ blogItem }: { blogItem: any }) => {
           }
         )}
         style={{ fontSize: '2.5rem' }}
+        onClick={handleClick}
       ></span>
     </div>
   );
@@ -132,6 +159,20 @@ const ArticlesRecentlyPosted = ({ blogList }: { blogList: any }) => {
 
 const AuthorBlogHeader = ({ data }: { data: any }) => {
   const viewByUsrAnon = useRecoilValue(usrSsnCookieAtom);
+
+  useEffect(() => {
+    (async () => {
+      console.log(
+        'handleArticleViews ***',
+        data,
+        viewByUsrAnon,
+        findIndex(data?.views, ['anon_ssn', viewByUsrAnon])
+      );
+      if (findIndex(data?.views, ['anon_ssn', viewByUsrAnon]) == -1) {
+        await handleArticleViews(data?.id, viewByUsrAnon);
+      }
+    })();
+  }, [data]);
 
   return (
     <>
