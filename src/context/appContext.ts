@@ -39,7 +39,7 @@ const profileInfoSlctr = selector({
         )) as any;
       return dtProfile && !errProfile ? dtProfile : {};
     }
-    return new DefaultValue();
+    return null;
   },
 });
 

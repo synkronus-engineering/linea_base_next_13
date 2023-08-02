@@ -2,6 +2,7 @@
 
 import { supabaseClient } from '@/src/lib/supabase';
 import { randomUUID } from 'crypto';
+import { isNil } from 'lodash';
 import { revalidatePath } from 'next/cache';
 
 export const handleFormServerAction = async (
@@ -10,8 +11,8 @@ export const handleFormServerAction = async (
   blog_id: any,
   op: boolean
 ) => {
+  if (isNil(user_info)) return { data: null, error: 'must have user info' };
   let result: any;
-
   if (op) {
     const { comment } = Object.fromEntries(formData.entries());
     const objBlogComment = {
@@ -51,6 +52,7 @@ export const handleArticleLikes = async (
   userid: any,
   blog_id: any
 ) => {
+  if (isNil(userid)) return { data: null, error: 'must have user info' };
   const result = await supabaseClient().rpc('update_likes_array', {
     userid,
     like_it,

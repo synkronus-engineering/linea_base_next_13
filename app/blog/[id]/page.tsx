@@ -24,13 +24,7 @@ export async function fetchData(id: any) {
   };
 }
 
-const Page = async ({
-  params,
-  searchParams,
-}: {
-  params: any;
-  searchParams: any;
-}) => {
+const Page = async ({ params }: { params: any }) => {
   const { blogItem, blogList } = (await fetchData(params?.id)) as any;
 
   return <BlogDetail blogItem={blogItem} blogList={blogList} />;

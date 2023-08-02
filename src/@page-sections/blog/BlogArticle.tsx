@@ -162,12 +162,6 @@ const AuthorBlogHeader = ({ data }: { data: any }) => {
 
   useEffect(() => {
     (async () => {
-      console.log(
-        'handleArticleViews ***',
-        data,
-        viewByUsrAnon,
-        findIndex(data?.views, ['anon_ssn', viewByUsrAnon])
-      );
       if (findIndex(data?.views, ['anon_ssn', viewByUsrAnon]) == -1) {
         await handleArticleViews(data?.id, viewByUsrAnon);
       }
@@ -289,6 +283,16 @@ const ArticleComments = ({ blogItem }: { blogItem: any }) => {
   const setSnackbarState = useSetRecoilState(toggleSnackBar);
 
   const handleFormAction = async (comment: string) => {
+    if (isNil(userGlobal)) {
+      setSnackbarState({
+        show: true,
+        msg: 'Requiere usuario registrado',
+        title: 'Required',
+        type: 'warn',
+      });
+      setDialogOpen(false);
+      return;
+    }
     const result = await handleFormServerAction(
       { comment, article_id: articleSelected?.id },
       userGlobal,
@@ -368,6 +372,15 @@ const PostFormCmp = ({ blogItem }: { blogItem: any }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleFormSubmit = async (formData: FormData) => {
+    if (isNil(userGlobal)) {
+      setSnackbarState({
+        show: true,
+        msg: 'Requiere usuario registrado',
+        title: 'Required',
+        type: 'warn',
+      });
+      return;
+    }
     setIsLoading(true);
     const result = (await handleFormServerAction(
       formData,
@@ -428,8 +441,6 @@ export default function BlogDetail({
   blogItem: any;
   blogList: any;
 }) {
-  console.log('BlogDetail ***', blogItem);
-
   return (
     <div className="card  px-3 md:px-6 py-4 md:py-8 md:mx-8">
       <div className="flex justify-content-between flex-column-reverse md:flex-row align-items-center">
