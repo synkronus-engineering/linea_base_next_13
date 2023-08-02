@@ -51,8 +51,8 @@ const BtnThumbsUp = ({ blogItem }: { blogItem: any }) => {
     if (isNil(userGlobal)) {
       setSnackbarState({
         show: true,
-        msg: 'requiere login user',
-        title: 'Likes',
+        msg: 'Requiere login user',
+        title: 'Required',
         type: 'warn',
       });
       return;
