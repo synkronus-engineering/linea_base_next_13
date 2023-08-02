@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
+import { handleSubmit } from '@/app/blog/blog_actions';
 import DynamicDialog from '@/src/components/dialogs/DynamicDialog';
+import { toggleSnackBar } from '@/src/components/message/SnackBar';
 import {
   PaginatorCmp,
   usePaginator,
@@ -9,8 +11,8 @@ import { userGlobalSession, usrSsnCookieAtom } from '@/src/context/appContext';
 import { first as firstAsh, indexOf, isNil, map, split } from 'lodash';
 import Link from 'next/link';
 import { classNames } from 'primereact/utils';
-import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRef, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 export const AvatarProCmp = ({ url_avatar }: { url_avatar: string }) => {
   const pro_avatar = isNil(url_avatar)
@@ -264,8 +266,38 @@ const ArticleComments = ({ blogItem }: { blogItem: any }) => {
 };
 
 const PostFormCmp = ({ blogItem }: { blogItem: any }) => {
+  const userGlobal = useRecoilValue(userGlobalSession);
+  const setSnackbarState = useSetRecoilState(toggleSnackBar);
+  const formRef = useRef() as any;
+
+  const handleFormSubmit = async (formData: FormData) => {
+    //...
+
+    const result = (await handleSubmit(
+      formData,
+      userGlobal?.user?.id,
+      blogItem?.id
+    )) as any;
+
+    if (result.data && !result.error) {
+      formRef?.current?.reset();
+      setSnackbarState({
+        show: true,
+        msg: 'Success',
+        title: 'Confirm Update',
+        type: 'success',
+      });
+    } else {
+      setSnackbarState({
+        show: true,
+        msg: `${result.error?.message}`,
+        title: 'Action error',
+        type: 'error',
+      });
+    }
+  };
   return (
-    <form>
+    <form ref={formRef}>
       <div className="text-xl text-900 mb-4 font-bold mt-8">Post a Comment</div>
       <div className="mb-3 p-fluid">
         <textarea
@@ -275,7 +307,7 @@ const PostFormCmp = ({ blogItem }: { blogItem: any }) => {
         ></textarea>
       </div>
       <div className="flex justify-content-end">
-        <button className="p-button p-component">
+        <button className="p-button p-component" formAction={handleFormSubmit}>
           <span className="p-button-label p-c">Post Comment</span>
         </button>
       </div>

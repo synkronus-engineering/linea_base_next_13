@@ -31,7 +31,7 @@ const Page = async ({
   params: any;
   searchParams: any;
 }) => {
-  const { blogItem, blogList } = await fetchData(params?.id);
+  const { blogItem, blogList } = (await fetchData(params?.id)) as any;
 
   return <BlogDetail blogItem={blogItem} blogList={blogList} />;
 };

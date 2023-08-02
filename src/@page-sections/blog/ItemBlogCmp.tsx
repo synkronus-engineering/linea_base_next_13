@@ -10,6 +10,7 @@ import Link from 'next/link';
 const ItemBlogCmp = ({ dataSet }: { dataSet: any }) => {
   const { first, stepInd, onPageChange, getTotalRecords, curentPagedData } =
     usePaginator(dataSet);
+
   console.log('ItemBlogCmp ***', curentPagedData);
 
   return (
