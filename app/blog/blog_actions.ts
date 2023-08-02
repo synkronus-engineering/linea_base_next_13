@@ -2,7 +2,7 @@
 
 import { supabaseClient } from '@/src/lib/supabase';
 import { randomUUID } from 'crypto';
-import { isNil } from 'lodash';
+import { filter, isNil } from 'lodash';
 import { revalidatePath } from 'next/cache';
 
 export const handleFormServerAction = async (
@@ -41,7 +41,6 @@ export const handleFormServerAction = async (
       reply_obj,
     });
   }
-
   if (!result.error) revalidatePath(`/blog/${blog_id}`);
 
   return result;
@@ -69,4 +68,13 @@ export const handleArticleViews = async (blog_id: any, anon_ssn: any) => {
     anon_ssn,
   });
   if (result?.data && blog_id) revalidatePath(`/blog/${blog_id}`);
+};
+
+export const fetchBlogListSrvrFn = async (blog_id: any) => {
+  const blogListPrms = await supabaseClient()
+    .from('blog')
+    .select('*')
+    .order('id', { ascending: false });
+
+  return filter(blogListPrms?.data, (i) => Number(i?.id) !== Number(blog_id));
 };

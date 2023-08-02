@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 import {
+  fetchBlogListSrvrFn,
   handleArticleLikes,
   handleArticleViews,
   handleFormServerAction,
@@ -106,53 +107,72 @@ const BlogContentBody = ({ blogItem }: { blogItem: any }) => {
   );
 };
 
-const ArticlesRecentlyPosted = ({ blogList }: { blogList: any }) => {
+const ArticlesRecentlyPosted = ({ blogItem }: { blogItem: any }) => {
+  const [blogList, setBlogList] = useState([]);
   const { first, stepInd, onPageChange, getTotalRecords, curentPagedData } =
     usePaginator(blogList);
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    (() => {
+      startTransition(async () => {
+        const result = (await fetchBlogListSrvrFn(blogItem?.id)) as any;
+        setBlogList(result);
+      });
+    })();
+  }, [blogItem]);
 
   return (
     <>
       <div className="font-bold text-5xl text-900 mb-3">Recent Articles</div>
       <div className="grid nogutter">
-        {map(curentPagedData, (blog: any) => (
-          <div className="col-12 lg:col-4 p-4" key={blog?.id}>
-            <Link href={`/blog/${blog?.id}`}>
-              <div className="border-top-3 border-blue-600"></div>
-              <div className="text-900 font-medium text-xl line-height-3 mb-4">
-                {blog?.title}
-              </div>
-              <div className="font-sm text-700 line-height-3">
-                {blog?.sort_description}
-              </div>
-              <div className="flex mt-4 align-items-center">
-                <img
-                  src={`/assets/blog/avatar/${blog?.author?.srcImg}`}
-                  alt="avatar"
-                  className="w-3rem h-3rem mr-3 flex-shrink-0"
-                />
-                <div className="ml-2">
-                  <div className="text-xs font-bold text-900 mb-1">
-                    {blog?.author?.name}
-                  </div>
-                  <div className="text-xs flex align-items-center text-700">
-                    <i className="pi pi-calendar mr-1 text-xs"></i>
-                    <span>{firstAsh(split(blog?.created_at, 'T'))}</span>
-                  </div>
-                </div>
-                <span className="text-blue-600 font-medium ml-auto">
-                  {blog?.category}
-                </span>
-              </div>
-            </Link>
+        {isPending ? (
+          <div className="flex col-12 lg:col-4 p-4 align-content-center justify-content-center">
+            Loading Recent Articless...
           </div>
-        ))}
+        ) : (
+          map(curentPagedData, (blog: any) => (
+            <div className="col-12 lg:col-4 p-4" key={blog?.id}>
+              <Link href={`/blog/${blog?.id}`}>
+                <div className="border-top-3 border-blue-600"></div>
+                <div className="text-900 font-medium text-xl line-height-3 mb-4">
+                  {blog?.title}
+                </div>
+                <div className="font-sm text-700 line-height-3">
+                  {blog?.sort_description}
+                </div>
+                <div className="flex mt-4 align-items-center">
+                  <img
+                    src={`/assets/blog/avatar/${blog?.author?.srcImg}`}
+                    alt="avatar"
+                    className="w-3rem h-3rem mr-3 flex-shrink-0"
+                  />
+                  <div className="ml-2">
+                    <div className="text-xs font-bold text-900 mb-1">
+                      {blog?.author?.name}
+                    </div>
+                    <div className="text-xs flex align-items-center text-700">
+                      <i className="pi pi-calendar mr-1 text-xs"></i>
+                      <span>{firstAsh(split(blog?.created_at, 'T'))}</span>
+                    </div>
+                  </div>
+                  <span className="text-blue-600 font-medium ml-auto">
+                    {blog?.category}
+                  </span>
+                </div>
+              </Link>
+            </div>
+          ))
+        )}
       </div>
-      <PaginatorCmp
-        first={first}
-        stepInd={stepInd}
-        getTotalRecords={getTotalRecords}
-        onPageChange={onPageChange}
-      />
+      {isPending ? null : (
+        <PaginatorCmp
+          first={first}
+          stepInd={stepInd}
+          getTotalRecords={getTotalRecords}
+          onPageChange={onPageChange}
+        />
+      )}
     </>
   );
 };
@@ -381,6 +401,7 @@ const PostFormCmp = ({ blogItem }: { blogItem: any }) => {
       });
       return;
     }
+    if (isLoading) return;
     setIsLoading(true);
     const result = (await handleFormServerAction(
       formData,
@@ -425,7 +446,10 @@ const PostFormCmp = ({ blogItem }: { blogItem: any }) => {
           disabled={isLoading}
         >
           {isLoading ? (
-            <i className="pi pi-spin pi-spinner" style={{ fontSize: '1rem' }} />
+            <i
+              className="pi pi-spin pi-spinner mr-2"
+              style={{ fontSize: '1rem' }}
+            />
           ) : null}
           <span className="p-button-label p-c">Post Comment</span>
         </button>
@@ -434,13 +458,7 @@ const PostFormCmp = ({ blogItem }: { blogItem: any }) => {
   );
 };
 
-export default function BlogDetail({
-  blogItem,
-  blogList,
-}: {
-  blogItem: any;
-  blogList: any;
-}) {
+export default function BlogDetail({ blogItem }: { blogItem: any }) {
   return (
     <div className="card  px-3 md:px-6 py-4 md:py-8 md:mx-8">
       <div className="flex justify-content-between flex-column-reverse md:flex-row align-items-center">
@@ -449,7 +467,7 @@ export default function BlogDetail({
       <BlogContentBody blogItem={blogItem} />
       <BtnThumbsUp blogItem={blogItem} />
       <div className="mb-5">
-        <ArticlesRecentlyPosted blogList={blogList} />
+        <ArticlesRecentlyPosted blogItem={blogItem} />
       </div>
       <div className="my-4 mx-0 md:mx-8">
         <PostFormCmp blogItem={blogItem} />
