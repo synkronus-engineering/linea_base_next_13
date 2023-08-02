@@ -19,6 +19,7 @@ import {
   indexOf,
   isNil,
   map,
+  slice,
   split,
 } from 'lodash';
 import Link from 'next/link';
@@ -109,8 +110,14 @@ const BlogContentBody = ({ blogItem }: { blogItem: any }) => {
 
 const ArticlesRecentlyPosted = ({ blogItem }: { blogItem: any }) => {
   const [blogList, setBlogList] = useState([]);
-  const { first, stepInd, onPageChange, getTotalRecords, curentPagedData } =
-    usePaginator(blogList);
+  const {
+    first,
+    stepInd,
+    onPageChange,
+    getTotalRecords,
+    curentPagedData,
+    setCurentPagedData,
+  } = usePaginator(blogList);
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
@@ -118,9 +125,10 @@ const ArticlesRecentlyPosted = ({ blogItem }: { blogItem: any }) => {
       startTransition(async () => {
         const result = (await fetchBlogListSrvrFn(blogItem?.id)) as any;
         setBlogList(result);
+        setCurentPagedData(slice(result, first.from, first.to));
       });
     })();
-  }, [blogItem]);
+  }, []);
 
   return (
     <>
@@ -177,54 +185,54 @@ const ArticlesRecentlyPosted = ({ blogItem }: { blogItem: any }) => {
   );
 };
 
-const AuthorBlogHeader = ({ data }: { data: any }) => {
+const AuthorBlogHeader = ({ blogItem }: { blogItem: any }) => {
   const viewByUsrAnon = useRecoilValue(usrSsnCookieAtom);
 
   useEffect(() => {
     (async () => {
-      if (findIndex(data?.views, ['anon_ssn', viewByUsrAnon]) == -1) {
-        await handleArticleViews(data?.id, viewByUsrAnon);
+      if (findIndex(blogItem?.views, ['anon_ssn', viewByUsrAnon]) == -1) {
+        await handleArticleViews(blogItem?.id, viewByUsrAnon);
       }
     })();
-  }, [data]);
+  }, []);
 
   return (
     <>
       <div>
         <div className="text-3xl text-900 mb-4 mt-4 md:mt-0 text-center md:text-left font-semibold md:pr-4">
-          {data?.title}
+          {blogItem?.title}
         </div>
         <div className="flex flex-wrap justify-content-center md:justify-content-start gap-1">
           <span className="inline-flex align-items-center py-2 px-1 font-medium ">
             <i className="pi pi-clock text-primary mr-1"></i>
             <span className="text-900">
-              {firstAsh(split(data?.created_at, 'T'))}
+              {firstAsh(split(blogItem?.created_at, 'T'))}
             </span>
           </span>
           <span className="inline-flex align-items-center py-2 px-1 font-medium ">
             <i className="pi pi-comments text-primary mr-1"></i>
             <span className="text-900">
-              {(data?.article_comments || []).length}
+              {(blogItem?.article_comments || []).length}
             </span>
           </span>
           <span className="inline-flex align-items-center py-2 px-1 font-medium ">
             <i className="pi pi-eye text-primary mr-1"></i>
-            <span className="text-900">{(data?.views || []).length}</span>
+            <span className="text-900">{(blogItem?.views || []).length}</span>
           </span>
           <span className="inline-flex align-items-center py-2 px-1 font-medium ">
             <i className="pi pi-thumbs-up text-primary mr-1"></i>
-            <span className="text-900">{(data?.likes || []).length}</span>
+            <span className="text-900">{(blogItem?.likes || []).length}</span>
           </span>
         </div>
       </div>
       <div className="flex flex-column align-items-center justify-content-center">
         <img
           className="w-4rem h-4rem"
-          src={`/assets/blog/avatar/${data?.author?.srcImg}`}
+          src={`/assets/blog/avatar/${blogItem?.author?.srcImg}`}
           alt="Avatar"
         />
         <span className="mt-3 font-bold text-900 text-center white-space-nowrap">
-          {data?.author?.name}
+          {blogItem?.author?.name}
         </span>
       </div>
     </>
@@ -462,7 +470,7 @@ export default function BlogDetail({ blogItem }: { blogItem: any }) {
   return (
     <div className="card  px-3 md:px-6 py-4 md:py-8 md:mx-8">
       <div className="flex justify-content-between flex-column-reverse md:flex-row align-items-center">
-        <AuthorBlogHeader data={blogItem} />
+        <AuthorBlogHeader blogItem={blogItem} />
       </div>
       <BlogContentBody blogItem={blogItem} />
       <BtnThumbsUp blogItem={blogItem} />

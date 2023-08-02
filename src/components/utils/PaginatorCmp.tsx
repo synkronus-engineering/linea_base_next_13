@@ -31,7 +31,14 @@ const usePaginator = (dataSet: any, steps: number = 3) => {
 
   const getTotalRecords = (dataSet || []).length;
 
-  return { first, stepInd, onPageChange, getTotalRecords, curentPagedData };
+  return {
+    first,
+    stepInd,
+    onPageChange,
+    getTotalRecords,
+    curentPagedData,
+    setCurentPagedData,
+  };
 };
 
 type CmpProps = {

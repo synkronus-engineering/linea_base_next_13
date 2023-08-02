@@ -3,7 +3,7 @@
 import { supabaseClient } from '@/src/lib/supabase';
 import { randomUUID } from 'crypto';
 import { filter, isNil } from 'lodash';
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 
 export const handleFormServerAction = async (
   formData: FormData | any,
@@ -41,7 +41,7 @@ export const handleFormServerAction = async (
       reply_obj,
     });
   }
-  if (!result.error) revalidatePath(`/blog/${blog_id}`);
+  if (!result.error) revalidateTag(`/blog/${blog_id}`);
 
   return result;
 };
@@ -58,7 +58,7 @@ export const handleArticleLikes = async (
     blog_id,
   });
 
-  if (!result.error) revalidatePath(`/blog/${blog_id}`);
+  if (!result.error) revalidateTag(`/blog/${blog_id}`);
   return result;
 };
 
@@ -67,7 +67,7 @@ export const handleArticleViews = async (blog_id: any, anon_ssn: any) => {
     blog_id,
     anon_ssn,
   });
-  if (result?.data && blog_id) revalidatePath(`/blog/${blog_id}`);
+  if (result?.data && blog_id) revalidateTag(`/blog/${blog_id}`);
 };
 
 export const fetchBlogListSrvrFn = async (blog_id: any) => {
