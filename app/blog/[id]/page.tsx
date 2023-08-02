@@ -2,7 +2,7 @@ import BlogDetail from '@/src/@page-sections/blog/BlogArticle';
 import { supabaseClient } from '@/src/lib/supabase';
 import { filter } from 'lodash';
 
-export async function fetchData(id: any) {
+async function fetchData(id: any) {
   const blogByIdPrms = supabaseClient()
     .from('blog')
     .select(
