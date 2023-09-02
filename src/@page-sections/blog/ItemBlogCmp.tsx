@@ -26,7 +26,7 @@ const ItemBlogCmp = ({ dataSet }: { dataSet: any }) => {
                 <img
                   src={`/assets/blog/images/${blog?.image_src}`}
                   alt="blog-1"
-                  className="block w-full border-round-top"
+                  className="block w-full border-round-top h-10rem"
                 />
 
                 <div className="p-4">

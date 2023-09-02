@@ -4,7 +4,7 @@
   position: 'fixed';
   overflow: 'hidden';
   height: '3px !important';
-  backgroundcolor: blue.main;
-  zindex: '99999999 !important';
-  borderradius: '0px 300px 300px 0px !important';
+  background-color: blue;
+  z-index: '99999999 !important';
+  border: '0px 300px 300px 0px !important';
 }

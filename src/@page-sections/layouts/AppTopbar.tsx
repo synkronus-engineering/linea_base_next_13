@@ -7,7 +7,9 @@ import HasMounted from '@/src/lib/HasMounted';
 import { first, get, has } from 'lodash';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Button } from 'primereact/button';
+import { classNames } from 'primereact/utils';
 import LoginPage from '../login/LoginCmp';
 import useLogicDialog from '../login/useLogicDialog';
 
@@ -20,6 +22,7 @@ const AppTopbar = () => {
     handleLogout,
     handleUserLog,
   } = useLogicDialog();
+  const pathname = usePathname();
 
   return (
     <div className="layout-topbar">
@@ -35,8 +38,13 @@ const AppTopbar = () => {
         </div>
       </Link>
 
-      <Link href="/products">
-        <Button label="Products" className="p-button-link p-ripple" />
+      <Link
+        href="/products"
+        className={classNames('p-button p-button-link p-ripple', {
+          underline: pathname === '/products',
+        })}
+      >
+        Products
       </Link>
 
       <Link href="/todos">
