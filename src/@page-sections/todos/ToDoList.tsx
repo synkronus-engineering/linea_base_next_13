@@ -26,7 +26,7 @@ const ToDoList = () => {
     <Button
       icon="pi pi-trash"
       tooltip="Delete"
-      placeholder="Right"
+      // placeholder="Right"
       className="p-button-text p-button-danger"
       onClick={() => handleAction(rowData, 'delete')}
     />
@@ -48,7 +48,7 @@ const ToDoList = () => {
           rounded
           raised
           tooltip="New"
-          placeholder="left"
+          // placeholder="left"
           onClick={() => setDialogOpen(true)}
         />
       </span>

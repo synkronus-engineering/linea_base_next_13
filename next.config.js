@@ -1,13 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverActions: true,
-  },
   images: {
-    domains: [
-      'hiveznmewgxqdpwwabrn.supabase.co',
-      'vcuonjyqailydlqkjteh.supabase.co',
-      'localhost',
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'hiveznmewgxqdpwwabrn.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'vcuonjyqailydlqkjteh.supabase.co',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
     ],
   },
 };

@@ -6,6 +6,7 @@ import { SnackBarApp } from '@/src/components/message/SnackBar';
 import HasMounted from '@/src/lib/HasMounted';
 import { first, get, has } from 'lodash';
 
+import ImageElm from '@/src/components/image/ImageElm';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from 'primereact/button';
@@ -28,7 +29,7 @@ const AppTopbar = () => {
     <div className="layout-topbar">
       <Link href="/">
         <div className="layout-topbar-logo">
-          <img
+          <ImageElm
             src={`/assets/layout/logo-dark.svg`}
             width="47.22px"
             height={'35px'}

@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import Link from 'next/link';
+import ImageElm from '../image/ImageElm';
 
 const AppFooter = () => {
   return (
@@ -9,7 +10,7 @@ const AppFooter = () => {
         <div className="col-12 md:col-2" style={{ marginTop: '-1.5rem' }}>
           <Link href="/">
             <div className="flex flex-wrap align-items-center justify-content-center md:justify-content-start md:mb-0 mb-3 cursor-pointer">
-              <img
+              <ImageElm
                 src={`/assets/layout/logo-dark.svg`}
                 alt="footer sections"
                 width="50"

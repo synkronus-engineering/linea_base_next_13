@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ImageElm from '../image/ImageElm';
 
 type ItemProps = { errorMsg: string; urlRedirect: any; title?: string };
 
@@ -27,7 +28,7 @@ const ErrorDynamic = ({ errorMsg, urlRedirect, title }: ItemProps) => {
             {title || 'Error Occured'}
           </h1>
           <div className="text-600 mb-5">{errorMsg}</div>
-          <img
+          <ImageElm
             src={`/assets/error/asset-error.svg`}
             alt="Error"
             className="mb-5"

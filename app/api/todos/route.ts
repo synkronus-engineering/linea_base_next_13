@@ -12,7 +12,7 @@ function handleError(error: any): RESPONSE_APIREST {
   };
 }
 
-export async function GET(req: Request) {
+export async function GET() {
   const todosTbl = createServerRouteClient(cookies).from('todos');
   try {
     const result = await todosTbl.select('*').order('id', { ascending: true });

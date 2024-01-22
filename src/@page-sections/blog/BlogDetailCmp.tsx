@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
+import ImageElm from '@/src/components/image/ImageElm';
 import { usrSsnCookieAtom } from '@/src/context/appContext';
 import { findIndex, first as firstAsh, isNil, split } from 'lodash';
 import { useEffect } from 'react';
@@ -11,7 +12,7 @@ export const AvatarProCmp = ({ url_avatar }: { url_avatar: string }) => {
     : url_avatar;
 
   return (
-    <img
+    <ImageElm
       src={pro_avatar}
       alt="vatar"
       className="w-3rem h-3rem border-circle shadow-4 mr-3"
@@ -23,7 +24,7 @@ const BlogContentBody = ({ blogItem }: { blogItem: any }) => {
   return (
     <>
       <div className="text-center my-6">
-        <img
+        <ImageElm
           src={`/assets/blog/images/${blogItem?.image_src}`}
           alt="Image"
           className="w-full"
@@ -81,7 +82,7 @@ const AuthorBlogHeader = ({
         </div>
       </div>
       <div className="flex flex-column align-items-center justify-content-center">
-        <img
+        <ImageElm
           className="w-4rem h-4rem"
           src={`/assets/blog/avatar/${blogItem?.author?.srcImg}`}
           alt="Avatar"
