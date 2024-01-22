@@ -1,4 +1,4 @@
-# Course Code for [Building Full stack application with NextJs 13+](https://www.udemy.com/course/fullstack-nextjs-13-recoil-supabase)
+# [Building Full stack application with NextJs &amp; Supabase](https://www.udemy.com/course/fullstack-nextjs-13-recoil-supabase)
 
 <br/>
 This GitHub repo includes the final code for all the modules in the course
