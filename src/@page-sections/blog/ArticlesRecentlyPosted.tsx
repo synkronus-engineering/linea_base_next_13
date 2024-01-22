@@ -1,4 +1,5 @@
 'use client';
+import ImageElm from '@/src/components/image/ImageElm';
 import {
   PaginatorCmp,
   usePaginator,
@@ -55,7 +56,7 @@ export default function ArticlesRecentlyPosted({
                   {blog?.sort_description}
                 </div>
                 <div className="flex mt-4 align-items-center">
-                  <img
+                  <ImageElm
                     src={`/assets/blog/avatar/${blog?.author?.srcImg}`}
                     alt="avatar"
                     className="w-3rem h-3rem mr-3 flex-shrink-0"

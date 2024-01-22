@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
+import ImageElm from '@/src/components/image/ImageElm';
 import { map } from 'lodash';
 import Link from 'next/link';
 
@@ -50,7 +51,7 @@ const OrderDetail = ({ orderDetailData }: { orderDetailData: any }) => {
               className="p-3 border-bottom-1 surface-border flex align-items-start sm:align-items-center"
               key={item?.id}
             >
-              <img
+              <ImageElm
                 src={`/assets/products/items/${item?.image}`}
                 className="w-3rem sm:w-8rem flex-shrink-0 mr-3 shadow-2"
               />
@@ -82,7 +83,7 @@ const OrderDetail = ({ orderDetailData }: { orderDetailData: any }) => {
           </div>
           <span className="font-medium text-900">Payment</span>
           <div className="flex align-items-center mt-3">
-            <img
+            <ImageElm
               src="/assets/images/illustration/visa.png"
               className="w-4rem mr-3"
             />

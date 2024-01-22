@@ -1,4 +1,5 @@
 'use client';
+import ImageElm from '@/src/components/image/ImageElm';
 import { userGlobalSession } from '@/src/context/appContext';
 import { first, get, split } from 'lodash';
 import { useRecoilValue } from 'recoil';
@@ -60,7 +61,7 @@ const ProfileInfo = () => {
                     </p>
                   </div>
                   <div>
-                    <img src="/assets/images/illustration/stats-illustration-1.svg" />
+                    <ImageElm src="/assets/images/illustration/stats-illustration-1.svg" />
                   </div>
                 </div>
               </div>
@@ -78,7 +79,7 @@ const ProfileInfo = () => {
                     </p>
                   </div>
                   <div>
-                    <img
+                    <ImageElm
                       src="/assets/images/illustration/stats-illustration-5.svg"
                       style={{ height: '60px', width: 'auto' }}
                     />
@@ -97,7 +98,7 @@ const ProfileInfo = () => {
                     <p className="mt-1 mb-0 text-600 text-xl">Monthly Orders</p>
                   </div>
                   <div>
-                    <img
+                    <ImageElm
                       src="/assets/images/illustration/stats-illustration-6.svg"
                       style={{ height: '60px', width: 'auto' }}
                     />

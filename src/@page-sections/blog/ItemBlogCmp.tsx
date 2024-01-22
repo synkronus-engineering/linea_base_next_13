@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
+import ImageElm from '@/src/components/image/ImageElm';
 import {
   PaginatorCmp,
   usePaginator,
@@ -23,7 +24,7 @@ const ItemBlogCmp = ({ dataSet }: { dataSet: any }) => {
                 className="shadow-2 border-round h-full surface-card"
                 key={blog?.id}
               >
-                <img
+                <ImageElm
                   src={`/assets/blog/images/${blog?.image_src}`}
                   alt="blog-1"
                   className="block w-full border-round-top h-10rem"
@@ -38,7 +39,7 @@ const ItemBlogCmp = ({ dataSet }: { dataSet: any }) => {
                   </div>
                   <div className="flex align-items-center ">
                     <div className="p-avatar p-component p-avatar-image p-avatar-circle">
-                      <img
+                      <ImageElm
                         src={`/assets/blog/avatar/${blog?.author?.srcImg}`}
                         alt="avatar"
                       />
